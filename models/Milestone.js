@@ -8,8 +8,8 @@ const Milestone = new keystone.List('Milestone', {
 })
 
 Milestone.add({
-    createdAt: { type: Types.Date, default: Date.now, noedit: true },
-    updatedAt: { type: Types.Date, default: Date.now, noedit: true },
+    createdAt: { type: Types.Datetime, default: Date.now, noedit: true },
+    updatedAt: { type: Types.Datetime, default: Date.now, noedit: true },
     evaluationPeriod: { type: Types.Relationship, ref: 'EvaluationPeriod', required: true, noedit: true },
     project: { type: Types.Relationship, ref: 'Project', noedit: true },
     projectId: { type: Types.Key, noedit: true },

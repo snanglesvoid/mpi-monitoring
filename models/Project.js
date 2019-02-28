@@ -9,8 +9,8 @@ const Project = new keystone.List('Project', {
 Project.add({
     title: { type: Types.Text, required: true, index: true },
     projectId: { type: Types.Key, required: true, initial: true },
-    createdAt: { type: Types.Date, default: Date.now, noedit: true },
-    updatedAt: { type: Types.Date, default: Date.now, noedit: true },
+    createdAt: { type: Types.Datetime, default: Date.now, noedit: true },
+    updatedAt: { type: Types.Datetime, default: Date.now, noedit: true },
 
     writePermission: { type: Types.Relationship, ref: 'User', many: true },
     readPermission: { type: Types.Relationship, ref: 'User', many: true },
@@ -37,7 +37,7 @@ Project.add({
 }, 'Contributions', {
 
     budget: { type: Types.Textarea, height: 100 },
-    administrationContribution : {
+    main : {
         funding: { type: Types.Textarea, height: 100 },
         personel: { type: Types.Textarea, height: 100 },
         resources: { type: Types.Textarea, height: 100 },
@@ -59,7 +59,7 @@ Project.add({
     output: {
         description: { type: Types.Textarea, height: 100 },
         contribution: { type: Types.Textarea, height: 100 },
-        themecluster: { type: Types.Relationship, ref: 'Themecluster' },
+        themecluster: { type: Types.Relationship, ref: 'Themecluster', many: true },
         indicators: { type: Types.Textarea, height: 100 },
     }
 })

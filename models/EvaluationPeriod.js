@@ -13,8 +13,8 @@ EvaluationPeriod.add({
         d.setDate(d.getDate() + 7)
         return d
     }},
-    createdAt: { type: Types.Date, default: Date.now, noedit: true },
-    updatedAt: { type: Types.Date, default: Date.now, noedit: true },
+    createdAt: { type: Types.Datetime, default: Date.now, noedit: true },
+    updatedAt: { type: Types.Datetime, default: Date.now, noedit: true },
 })
 
 EvaluationPeriod.defaultColumns = 'key, date, updatedAt'
