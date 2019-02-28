@@ -21,11 +21,7 @@ Project.add({
 
     measure: {
         description: { type: Types.Text },
-        field: { type: Types.Select, options: [
-            'Handlungsfeld 1 - ...',
-            'Handlungsfeld 2 - Digitalisierung',
-            'Handlungsfeld 3 - ...'
-        ]},
+        field: { type: Types.Relationship, ref: 'OperationField' },
         goal: { type: Types.Textarea, height: 100 },
         startDate: { type: Types.Date },
         endDate: { type: Types.Date },

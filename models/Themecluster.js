@@ -7,7 +7,7 @@ const Themecluster = new keystone.List('Themecluster', {
 })
 
 Themecluster.add({
-    title: { type: Types.Text, required: true, index: true }
+    title: { type: Types.Text, required: true, index: true, unique: true }
 })
 
 Themecluster.defaultColumns = 'title'
