@@ -2,7 +2,7 @@ const keystone = require('keystone')
 const Types = keystone.Field.Types
 
 const OperationField = new keystone.List('OperationField', {
-    map : { name: title },
+    map : { name: 'title' },
     autokey: { path: 'slug', from : 'title', unique: true }
 })
 
