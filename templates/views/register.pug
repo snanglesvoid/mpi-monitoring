@@ -1,0 +1,21 @@
+extends ../layouts/default
+
+block content
+    .container: .jumbotron: div(style="max-width: 800px; margin-left: 50%; transform: translateX(-50%);")
+        form(action="/register/" + token.token, method="post")
+            .form-group
+                label Email
+                input.form-control(type="email" name="email")
+            .form-group
+                label Vorname
+                input.form-control(type="text" name="firstname")
+            .form-group
+                label Nachname
+                input.form-control(type="text" name="lastname")
+            .form-group
+                label Passwort
+                input.form-control(type="password" name="password")
+            .form-group
+                label Passwort wiederholen
+                input.form-control(type="password" name="password-confirm")
+            button.btn.btn-primary.btn-block(type="submit") Anmelden
