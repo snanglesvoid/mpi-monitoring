@@ -12,9 +12,18 @@ exports = module.exports = async (req, res) => {
     .populate('milestones readPermission writePermission output.themecluster measure.field')
     .exec()
 
-    console.log(project);
-    (project.readPermission || []).forEach(console.log);
-    (project.writePermission || []).forEach(console.log)
+    if (!project) {
+        req.flash('Kein Projekt mit dieser projektId konnte gefunden werden!')
+        return view.render('errors/404')
+    }
+
+    let milestones = await keystone.list('Milestone').model.find({ project : project.id }).exec()
+
+    let opFields = await keystone.list('OperationField').model.find().exec()
+    let themeclusters = await keystone.list('Themecluster').model.find().exec()
+
+    locals.opFields = opFields || []
+    locals.themeclusters = themeclusters || []
 
     let canWrite = (project.writePermission || []).find(x => req.user.id == x.id) !== undefined
     let canRead = (project.readPermission || []).find(x => req.user.id == x.id) !== undefined || canWrite
@@ -24,9 +33,8 @@ exports = module.exports = async (req, res) => {
     }
 
     locals.canEdit = canWrite
-
-
     locals.project = project
+    locals.milestones = milestones
 
     view.on('post', async next => {
         if (!locals.canEdit) {
@@ -36,15 +44,28 @@ exports = module.exports = async (req, res) => {
 
         //update project
         try {
-            let handler = project.getUpdateHandler()
+            console.log(req.body)
+            project.notes = req.body.notes
+            project.measure.description = req.body['measure.description']
+            let field = opFields.find(x => x.title == req.body['measure.field'])
+            project.measure.field = field ? field.id : null 
+            project.measure.goal = req.body['measure.goal']
+
             await project.save()
+
+            milestones.forEach(async milestone => {
+                let key = milestone.key
+                milestone.description = req.body[key + '.description']
+                milestone.notes = req.body[key + '.notes']
+                milestone.state = req.body[key + '.state']
+                milestone.evaluation = req.body[key + '.evaluation']
+                await milestone.save()
+            })
         }
         catch (error) {
             return next(error)
         }
-        finally {
-            next()
-        }
+        res.redirect('back')
     })
 
     view.render('project')

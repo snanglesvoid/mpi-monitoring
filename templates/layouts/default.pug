@@ -111,6 +111,9 @@ html
 		//- which generate links to edit content for users who can access Keystone
 		if user && user.canAccessKeystone
 			script(src='/admin/js/content/editor.js')
+		
+		if user
+			script(src='https://cdn.ckeditor.com/ckeditor5/11.0.1/inline/ckeditor.js')
 
 		//- Add scripts that are globally required by your site here.
 

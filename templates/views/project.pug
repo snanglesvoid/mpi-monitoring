@@ -1,7 +1,94 @@
 extends ../layouts/default
 
-
 block content
     .container
         h3= project.title
-        h4= canEdit
+
+        form#project-form(action=(canEdit ? '/project/' + project.projectId : ''), method = "post")
+            //- .form-group
+                label Titel
+                input.form-control(type="text", value= project.title, readonly)
+            .form-group
+                label Projekt Id
+                input.form-control(type="text", value= project.projectId, readonly)
+            .form-group
+                label Zuletzt bearbeitet
+                input.form-control(type="text", value= project._.updatedAt.format('DD.M.YYYY : HH:mm'), readonly)
+            .form-group
+                label Notizen
+                div#notes.form-control(style="min-height: 160px;")!= project.notes
+                textarea#notes-hidden(name="notes", cols="0", rows="0", style='display: none;' readonly = !canEdit)
+            h4 Massname
+            .form-group
+                label Beschreibung
+                input.form-control(type="text", value= project.measure.description, name="measure.description" readonly = !canEdit)
+            .form-group
+                label Handlungsfeld
+                select(name="measure.field" readonly = !canEdit).form-control
+                    each x in opFields
+                        option(value=x.title, selected= project.measure.field && x.title == project.measure.field.title)= x.title
+            .form-group
+                label Ziel der Massname
+                textarea.form-control(name="measure.goal", rows=6, readonly=!canEdit)= project.measure.goal
+            p ...
+
+            each milestone in milestones || []
+                h4= milestone.key
+                p Fällig am #{milestone._.date.format('DD.M.YYYY : HH:mm')}
+                .form-group
+                    label Beschreibung
+                    textarea.form-control(name= milestone.key + '.description', readonly=!canEdit)= milestone.description
+                .form-group
+                    label Notizen
+                    textarea.form-control(name= milestone.key + '.notes', readonly=!canEdit)= milestone.notes
+                .form-group
+                    label Status
+                    select(name= milestone.key + '.state', readonly=!canEdit).form-control
+                        -var txt = "Noch nicht angefangen"
+                        option(value= txt  selected= milestone.state==txt)= txt
+                        -var txt = "In Bearbeitung"
+                        option(value= txt  selected= milestone.state==txt)= txt
+                        -var txt = "Abgeschlossen"
+                        option(value= txt  selected= milestone.state==txt)= txt
+                .form-group
+                    label Evaluierung
+                    span &nbsp;&nbsp;&nbsp;&nbsp;
+                    -var name= milestone.key + '.evaluation'
+                    span.radio-container(style='background: #cc3232;')
+                        input(type='radio', name= name, checked= milestone.evaluation=='red', value='red')
+                        .middle
+                    span.radio-container(style='background: #e7b416;')
+                        input(type='radio', name= name, checked= milestone.evaluation=='yellow', value='yellow')
+                        .middle
+                    span.radio-container(style='background: #2dc937;')
+                        input(type='radio', name= name, checked= milestone.evaluation=='green', value='green')
+                        .middle
+                    //- input(type='text', visibility: hidden, name= milestone.key + '.evaluation', value= milestone.evaluation)
+            if canEdit
+                button.btn.btn-primary.btn-block(type="submit") Speichern
+
+block js
+    if canEdit
+        script.
+            $(function() {
+                InlineEditor
+                .create($('#notes').get(0), {})
+                .catch(console.error)
+
+                $('#project-form').submit(function() {
+                    $('#notes-hidden').val($('#notes').html())
+                })
+
+                $('.radio-container').click(function() {
+                    $(this).find('input').attr('checked', '')
+                    $(this).find('.middle').css('background', 'transparent')
+                    $(this).siblings().find('input').removeAttr('checked')
+                    $(this).siblings().find('.middle').css('background', 'white')
+                    //- $(this).siblings('input[type=text]').val($(this).find('input').val())
+                })
+
+                $('.radio-container').find('input[checked]').siblings('.middle').css('background', 'transparent')
+            })
+
+
+

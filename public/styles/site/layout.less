@@ -72,3 +72,31 @@ body {
 		}
 	}
 }
+
+
+.radio-container {
+	height: 18px;
+	width: 18px;
+	margin-left: 4px;
+	margin-right: 4px;
+	padding: 0;
+	border-radius: 50%;
+	position: relative;
+	background: grey;
+	display: inline-block;
+
+	input {
+		visibility: hidden;
+	}
+
+	.middle {
+		border-radius: 50%;
+		height: 12px;
+		width: 12px;
+		top: 3px;
+		left: 3px;
+		position: absolute;
+		background: white;
+		transition: background .2s ease;
+	}
+}
