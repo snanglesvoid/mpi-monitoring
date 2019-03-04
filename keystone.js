@@ -52,7 +52,8 @@ keystone.set('nav', {
 	users: 'users',
 	projects: 'projects',
 	evaluation: ['evaluation-periods', 'milestones'],
-	more: ['themeclusters', 'operation-fields']
+	lists: ['themeclusters', 'operation-fields'],
+	more: ['pages', 'registration-tokens']
 });
 
 // Start Keystone to connect to your database and initialise the web server

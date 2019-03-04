@@ -12,7 +12,7 @@ mixin project(project)
         td
             a(href= url)= project.title
         td= project.projectId
-        td= project._.updatedAt.format('DD.M.YYYY : HH:mm:ss')
+        td= project._.updatedAt.format('DD.M.YYYY : HH:mm')
 
 block content
     .container: .item-list-wrapper
