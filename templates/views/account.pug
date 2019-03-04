@@ -1,8 +1,37 @@
 extends ../layouts/default
 
+mixin project(project)
+    -var url= '/project/'+project.projectId
+    tr
+        td
+            a(href= url)
+                if canEdit(project)
+                    span: i.far.fa-edit
+                else
+                    span: i.far.fa-eye
+        td
+            a(href= url)= project.title
+        td= project.projectId
+        td= project._.updatedAt.format('DD.M.YYYY : HH:mm:ss')
+
 block content
-    .container: .jumbotron
-        h2 Nutzerkonto
-        p
-            | Angemeldet als #{user.name.first}&nbsp;#{user.name.last} <br/>
-            | User Interface coming soon
+    .container: .item-list-wrapper
+        h3 Meine Projekte
+        br
+        table.table.item-list(cellpadding=0 cellspacing=0)
+            colgroup
+                col(width=26)
+                col
+                col
+                col
+            thead
+                tr
+                    th(colspan=1)
+                    th(colspan=1) Titel
+                    th(colspan=1) Projekt ID
+                    th(colspan=1) Zuletzt Geändert
+            tbody
+                each project in projects
+                    +project(project)
+
+

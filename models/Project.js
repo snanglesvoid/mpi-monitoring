@@ -8,12 +8,12 @@ const Project = new keystone.List('Project', {
 
 Project.add({
     title: { type: Types.Text, required: true, index: true },
-    projectId: { type: Types.Key, required: true, initial: true },
+    projectId: { type: Types.Key, required: true, initial: true, index: true },
     createdAt: { type: Types.Datetime, default: Date.now, noedit: true },
     updatedAt: { type: Types.Datetime, default: Date.now, noedit: true },
 
-    writePermission: { type: Types.Relationship, ref: 'User', many: true },
-    readPermission: { type: Types.Relationship, ref: 'User', many: true },
+    writePermission: { type: Types.Relationship, ref: 'User', many: true, index: true },
+    readPermission: { type: Types.Relationship, ref: 'User', many: true, index: true },
 
     notes: { type: Types.Html, wysiwyg: true, height: 200 }
 
@@ -21,7 +21,7 @@ Project.add({
 
     measure: {
         description: { type: Types.Text },
-        field: { type: Types.Relationship, ref: 'OperationField' },
+        field: { type: Types.Relationship, ref: 'OperationField', index: true },
         goal: { type: Types.Textarea, height: 100 },
         startDate: { type: Types.Date },
         endDate: { type: Types.Date },

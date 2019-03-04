@@ -19,7 +19,7 @@ exports = module.exports = async (req, res) => {
     }
     if (token.used) {
         req.flash('error', 'Dieser Registrierungs-Token wurde bereits verwendet, bitte wenden Sie sich an einen Administrator')
-        return view.render('/errors/400')
+        return view.render('errors/400')
     }
 
     view.on('post', async next => {

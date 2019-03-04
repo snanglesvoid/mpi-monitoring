@@ -12,13 +12,16 @@ html
 		title= title || 'MPI-monitoring'
 		link(rel="shortcut icon", href="/favicon.ico", type="image/x-icon")
 
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+
+
 		//- Customise the stylesheet for your site by editing /public/styles/site.less
 		//- All .less files will be automatically compiled and minified in production.
 		link(href="/styles/site.min.css", rel="stylesheet")
 
 		//- This file provides the default styling for the KeystoneJS Content Editor
-		if user && user.canAccessKeystone
-			link(href="/keystone/styles/content/editor.min.css", rel="stylesheet")
+		if user
+			link(href="/admin/styles/content/editor.min.css", rel="stylesheet")
 
 		//- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
 		//- Safely remove this block if you are not targeting IE8
@@ -37,13 +40,13 @@ html
 	body
 
 		//- HEADER
-		#header: .container
+		#header
 
 			//- Customise your site's navigation by changing the navLinks Array in ./routes/middleware.js
 			//- ... or completely change this header to suit your design.
 
 			div(role="navigation").navbar.navbar-default
-				.container-fluid
+				.container-fluid(style="max-width: 1170px;")
 					.navbar-header
 						button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
 							span.sr-only Toggle navigation
@@ -58,10 +61,15 @@ html
 						ul.nav.navbar-nav.navbar-right
 							if user
 								if user.canAccessKeystone
-									li: a(href='/admin') Admin Interface
-								li: a(href='/admin/signout') Abmelden
+									li
+										a(href='/admin') Admin Interface
+								li
+									a(href='/changePassword') Passwort ändern
+								li
+									a(href='/admin/signout') Abmelden
 							else
-								li: a(href='/login') Anmelden
+								li
+									a(href='/login') Anmelden
 
 		//- BODY
 		#body
@@ -102,7 +110,7 @@ html
 		//- The KeystoneJS Content Editor provides support for ks-editable data attributes,
 		//- which generate links to edit content for users who can access Keystone
 		if user && user.canAccessKeystone
-			script(src='/keystone/js/content/editor.js')
+			script(src='/admin/js/content/editor.js')
 
 		//- Add scripts that are globally required by your site here.
 
