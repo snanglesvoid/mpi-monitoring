@@ -18,7 +18,7 @@ Milestone.add({
     description: { type: Types.Textarea, height: 100 },
     notes: { type: Types.Textarea, height: 100 },
     state: { type: Types.Select, options: ['Noch nicht angefangen', 'In Bearbeitung', 'Abgeschlossen'], default: 'Noch nicht angefangen' },
-    evaluation: { type: Types.Select, options: ['green', 'yellow', 'red'] },
+    evaluation: { type: Types.Select, options: [1,2,3,4,5] },
 })
 
 Milestone.defaultColumns = 'key, projectId, date, state, evaluation'

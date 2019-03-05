@@ -3,11 +3,9 @@ extends ../layouts/default
 block content
     .container
         h3= project.title
+        br
 
         form#project-form(action=(canEdit ? '/project/' + project.projectId : ''), method = "post")
-            //- .form-group
-                label Titel
-                input.form-control(type="text", value= project.title, readonly)
             .form-group
                 label Projekt Id
                 input.form-control(type="text", value= project.projectId, readonly)
@@ -16,58 +14,179 @@ block content
                 input.form-control(type="text", value= project._.updatedAt.format('DD.M.YYYY : HH:mm'), readonly)
             .form-group
                 label Notizen
-                div#notes.form-control(style="min-height: 160px;")!= project.notes
+                div#notes.form-control(style="min-height: 160px; border: 1px solid #ccc; border-radius: 4px;")!= project.notes
                 textarea#notes-hidden(name="notes", cols="0", rows="0", style='display: none;' readonly = !canEdit)
-            h4 Massname
-            .form-group
-                label Beschreibung
-                input.form-control(type="text", value= project.measure.description, name="measure.description" readonly = !canEdit)
-            .form-group
-                label Handlungsfeld
-                select(name="measure.field" readonly = !canEdit).form-control
-                    each x in opFields
-                        option(value=x.title, selected= project.measure.field && x.title == project.measure.field.title)= x.title
-            .form-group
-                label Ziel der Massname
-                textarea.form-control(name="measure.goal", rows=6, readonly=!canEdit)= project.measure.goal
-            p ...
-
-            each milestone in milestones || []
-                h4= milestone.key
-                p Fällig am #{milestone._.date.format('DD.M.YYYY : HH:mm')}
+            hr
+            button.accordion-toggle
+                h4 Maßnahme
+            .accordion-group
                 .form-group
                     label Beschreibung
-                    textarea.form-control(name= milestone.key + '.description', readonly=!canEdit)= milestone.description
+                    input.form-control(type="text", value= project.measure.description, name="measure.description" readonly = !canEdit)
                 .form-group
-                    label Notizen
-                    textarea.form-control(name= milestone.key + '.notes', readonly=!canEdit)= milestone.notes
+                    label Handlungsfeld
+                    if canEdit
+                        select(name="measure.field").form-control
+                            option(value='null' selected= !project.measure.field, disabled) ... 
+                            each x in opFields
+                                option(value=x.id, selected= project.measure.field && x.title == project.measure.field.title)= x.title
+                    else
+                        input(readonly, name='measure.fied', value= (project.measure.field || {title:''}).title).form-control
                 .form-group
-                    label Status
-                    select(name= milestone.key + '.state', readonly=!canEdit).form-control
-                        -var txt = "Noch nicht angefangen"
-                        option(value= txt  selected= milestone.state==txt)= txt
-                        -var txt = "In Bearbeitung"
-                        option(value= txt  selected= milestone.state==txt)= txt
-                        -var txt = "Abgeschlossen"
-                        option(value= txt  selected= milestone.state==txt)= txt
+                    label Ziel der Maßnahme
+                    textarea.form-control(name="measure.goal", rows=6, readonly=!canEdit)= project.measure.goal
                 .form-group
-                    label Evaluierung
-                    span &nbsp;&nbsp;&nbsp;&nbsp;
-                    -var name= milestone.key + '.evaluation'
-                    span.radio-container(style='background: #cc3232;')
-                        input(type='radio', name= name, checked= milestone.evaluation=='red', value='red')
-                        .middle
-                    span.radio-container(style='background: #e7b416;')
-                        input(type='radio', name= name, checked= milestone.evaluation=='yellow', value='yellow')
-                        .middle
-                    span.radio-container(style='background: #2dc937;')
-                        input(type='radio', name= name, checked= milestone.evaluation=='green', value='green')
-                        .middle
-                    //- input(type='text', visibility: hidden, name= milestone.key + '.evaluation', value= milestone.evaluation)
+                    label Anfangsdatum
+                .form-group
+                    label Abschlussdatum
+            hr
+            button.accordion-toggle
+                h4 Akteure
+            .accordion-group
+                .form-group
+                    label Federführende Institution
+                    input.form-control(name='administration.institution', value=project.administration.institution, readonly=!canEdit)
+                .form-group
+                    label Name und Rolle der federführenden Person
+                    input.form-control(type='text', name='administration.name', value=project.administration.name, readonly=!canEdit)
+                .form-group
+                    label Email
+                    input.form-control(type='email', name='administration.email', value=project.administration.email, readonly=!canEdit)
+                .form-group
+                    label Telefon
+                    input.form-control(type='text', name='administration.phone', value=project.administration.phone, readonly=!canEdit)
+            hr
+            button.accordion-toggle
+                h4 Beiträge der Akteure
+            .accordion-group
+                .form-group
+                    label Budget der Maßnahme
+                    textarea.form-control(name='budget', height=100, readonly=!canEdit)= project.budget
+                h5
+                    em Beiträge der federführenden Institution
+                .form-group
+                    label Finanzielle Mittel
+                    textarea.form-control(name='main.funding', readonly=!canEdit, height=100 )= project.main.funding
+                .form-group
+                    label Personal
+                    textarea.form-control(name='main.personel', readonly=!canEdit, height=100 )= project.main.personel
+                .form-group
+                    label Sachmittel
+                    textarea.form-control(name='main.resources', readonly=!canEdit, height=100 )= project.main.resources
+                h5
+                    em Beiträge des unterstützenden Akteurs 1
+                .form-group
+                    label Unterstützender Akteur 1
+                    input.form-control(type='text', name='support1.name', value= project.support1.name, readonly=!canEdit )
+                .form-group
+                    label Finanzielle Mittel
+                    textarea.form-control(name='support1.funding', readonly=!canEdit, height=100 )= project.support1.funding
+                .form-group
+                    label Personal
+                    textarea.form-control(name='support1.personel', readonly=!canEdit, height=100 )= project.support1.personel
+                .form-group
+                    label Sachmittel
+                    textarea.form-control(name='support1.resources', readonly=!canEdit, height=100 )= project.support1.resources
+                h5
+                    em Beiträge des unterstützenden Akteurs 2
+                .form-group
+                    label Unterstützender Akteur 2
+                    input.form-control(type='text', name='support2.name', value= project.support2.name, readonly=!canEdit )
+                .form-group
+                    label Finanzielle Mittel
+                    textarea.form-control(name='support2.funding', readonly=!canEdit, height=100 )= project.support2.funding
+                .form-group
+                    label Personal
+                    textarea.form-control(name='support2.personel', readonly=!canEdit, height=100 )= project.support2.personel
+                .form-group
+                    label Sachmittel
+                    textarea.form-control(name='support2.resources', readonly=!canEdit, height=100 )= project.support2.resources
+            hr
+            button.accordion-toggle
+                h4 Output der Maßnahme
+            .accordion-group
+                .form-group
+                    label Beschreibung
+                    textarea.form-control(name='output.description', readonly=!canEdit, height=100 )= project.output.description
+                .form-group
+                    label Beitrag der Maßnahme zur Entwicklung der Industriestadt Berlin
+                    textarea.form-control(name='output.contribution', readonly=!canEdit, height=100)= project.output.contribution
+                .form-group
+                    label Beitrag der Maßnahme zu Themencluster
+                    br
+                    div.form-control(style='min-height: 34px; height: auto;', readonly=!canEdit)
+                        each tc in themeclusters
+                            div.checkbox-label
+                                input(type='checkbox', name=tc.title, value=tc._id, disabled=!canEdit
+                                    checked= project.output.themecluster.find(x => x._id.equals(tc._id)) ? 'checked' : false
+                                )
+                                span= tc.title
+                .form-group
+                    label Projektindividuelle Indikatoren
+                    textarea.form-control(name='output.indicators', readonly=!canEdit, height= 100)= project.output.indicators
+
+            hr
+            each milestone in milestones || []
+                button.accordion-toggle
+                    h4
+                        | #{milestone.key}
+                        span(style='float: right; font-size:14px;'): em Fällig am #{milestone._.date.format('DD.M.YYYY')}
+                .accordion-group
+                    .form-group
+                        label Beschreibung
+                        textarea.form-control(name= milestone.key + '.description', readonly=!canEdit)= milestone.description
+                    .form-group
+                        label Notizen
+                        textarea.form-control(name= milestone.key + '.notes', readonly=!canEdit)= milestone.notes
+                    .form-group
+                        label Status
+                        if canEdit
+                            select(name= milestone.key + '.state', readonly=!canEdit).form-control
+                                -var txt = "Noch nicht angefangen"
+                                option(value= txt  selected= milestone.state==txt)= txt
+                                -var txt = "In Bearbeitung"
+                                option(value= txt  selected= milestone.state==txt)= txt
+                                -var txt = "Abgeschlossen"
+                                option(value= txt  selected= milestone.state==txt)= txt
+                        else
+                            input(readonly, type='text', value= milestone.state).form-control
+                    .form-group
+                        label Evaluierung
+                        .form-control(readonly=!canEdit)
+                            -var name= milestone.key + '.evaluation'
+                            span.radio-container(style='background: #cc3232;')
+                                input(type='radio', name= name, checked= milestone.evaluation==1, value=1)
+                                .middle
+                            span.radio-container(style='background: #db7b2b;')
+                                input(type='radio', name= name, checked= milestone.evaluation==2, value=2)
+                                .middle
+                            span.radio-container(style='background: #e7b416;')
+                                input(type='radio', name= name, checked= milestone.evaluation==3, value=3)
+                                .middle
+                            span.radio-container(style='background: #99c140;')
+                                input(type='radio', name= name, checked= milestone.evaluation==4, value=4)
+                                .middle
+                            span.radio-container(style='background: #2dc937;')
+                                input(type='radio', name= name, checked= milestone.evaluation==5, value=5)
+                                .middle
+                hr
+            div(style='height: 90px;')
             if canEdit
-                button.btn.btn-primary.btn-block(type="submit") Speichern
+                .btn-bar.container
+                    button.btn.btn-primary(type="submit") Speichern
+                    button#resetbtn.btn.btn-link(style='background: transparent;') Änderungen Zurücksetzen
 
 block js
+    script.
+        $(function() {
+            $('.accordion-toggle').click(function(e) {
+                console.log('click')
+                $(this).toggleClass('active')
+                $(this).next('.accordion-group').toggleClass('active')
+                e.preventDefault()
+                return false;
+            })
+        })
     if canEdit
         script.
             $(function() {
@@ -84,10 +203,24 @@ block js
                     $(this).find('.middle').css('background', 'transparent')
                     $(this).siblings().find('input').removeAttr('checked')
                     $(this).siblings().find('.middle').css('background', 'white')
-                    //- $(this).siblings('input[type=text]').val($(this).find('input').val())
                 })
 
                 $('.radio-container').find('input[checked]').siblings('.middle').css('background', 'transparent')
+
+                $('#resetbtn').click(function() {
+                    let p = confirm('Sind Sie sicher dass Sie alle Änderungen verwefen möchten?')
+                    if (p) {
+                        window.location.reload()
+                    }
+                    else {
+                        return false
+                    }
+                })
+            })
+    else
+        script.
+            $(function() {
+                $('#notes').css('background', '#eee')
             })
 
 

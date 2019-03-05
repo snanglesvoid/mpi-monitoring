@@ -44,8 +44,8 @@ html
 
 			//- Customise your site's navigation by changing the navLinks Array in ./routes/middleware.js
 			//- ... or completely change this header to suit your design.
-
-			div(role="navigation").navbar.navbar-default
+			div.navbar-placeholder
+			div(role="navigation").navbar.navbar-primary.navbar-inverse
 				.container-fluid(style="max-width: 1170px;")
 					.navbar-header
 						button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
@@ -118,4 +118,17 @@ html
 		//- Add scripts that are globally required by your site here.
 
 		//- Include template-specific javascript files by extending the js block
+		script.
+			$(function () {
+				console.log('Site loaded')
+				$('.navbar-inverse .navbar-nav>li>a').on('mouseover', function() {
+					let $a = $(this)
+					$a.parent().siblings('li').find('a').addClass('dim')
+					$a.removeClass('dim')
+				})
+				$('.navbar-inverse .navbar-nav>li>a').on('mouseout', function() {
+					$('.navbar-inverse .navbar-nav>li>a').removeClass('dim')
+				})
+			})
 		block js
+
