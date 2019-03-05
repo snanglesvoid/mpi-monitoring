@@ -33,7 +33,7 @@ EvaluationPeriod.schema.pre('save', async function(next) {
         projects.forEach(async p => {
             let m = milestones.find(x => x.project.equals(p.id))
             if (!m) {
-                let m = new Milestone()
+                m = new Milestone()
             }
             m.set({
                 project: p.id,
