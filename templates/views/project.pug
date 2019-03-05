@@ -147,7 +147,7 @@ block content
                 .form-group
                     label Beitrag der Maßnahme zu Themencluster
                     br
-                    div.form-control(style='min-height: 34px; height: auto;', readonly=!canEdit)
+                    div(style='min-height: 34px; height: auto; width: 100%;', readonly=!canEdit)
                         each tc in themeclusters
                             div.checkbox-label
                                 input(type='checkbox', name=tc.title, value=tc._id, disabled=!canEdit
@@ -185,7 +185,7 @@ block content
                             input(readonly, type='text', value= milestone.state).form-control
                     .form-group
                         label Evaluierung
-                        .form-control(readonly=!canEdit)
+                        div(style='width: 100%;')
                             -var name= milestone.key + '.evaluation'
                             span.radio-container(style='background: #cc3232;')
                                 input(type='radio', name= name, checked= milestone.evaluation==1, value=1)
