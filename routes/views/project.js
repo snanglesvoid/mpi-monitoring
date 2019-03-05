@@ -16,7 +16,9 @@ exports = module.exports = async (req, res) => {
         return view.render('errors/404')
     }
 
-    let milestones = await keystone.list('Milestone').model.find({ project : project.id }).exec()
+    let milestones = await keystone.list('Milestone').model.find({ project : project.id })
+        .sort('date')
+        .exec()
     let opFields = await keystone.list('OperationField').model.find().exec()
     let themeclusters = await keystone.list('Themecluster').model.find().exec()
 

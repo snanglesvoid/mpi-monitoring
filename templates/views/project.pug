@@ -88,6 +88,12 @@ block content
                 .form-group
                     label Telefon
                     input.form-control(type='text', name='administration.phone', value=project.administration.phone, readonly=!canEdit)
+                .form-group
+                    label Unterstützender Akteur 1
+                    input.form-control(type='text', name='support1.name', value= project.support1.name, readonly=!canEdit )
+                .form-group
+                    label Unterstützender Akteur 2
+                    input.form-control(type='text', name='support2.name', value= project.support2.name, readonly=!canEdit )  
             hr
             button.accordion-toggle
                 h4 Beiträge der Akteure
@@ -109,9 +115,6 @@ block content
                 h5
                     em Beiträge des unterstützenden Akteurs 1
                 .form-group
-                    label Unterstützender Akteur 1
-                    input.form-control(type='text', name='support1.name', value= project.support1.name, readonly=!canEdit )
-                .form-group
                     label Finanzielle Mittel
                     textarea.form-control(name='support1.funding', readonly=!canEdit, height=100 )= project.support1.funding
                 .form-group
@@ -122,9 +125,6 @@ block content
                     textarea.form-control(name='support1.resources', readonly=!canEdit, height=100 )= project.support1.resources
                 h5
                     em Beiträge des unterstützenden Akteurs 2
-                .form-group
-                    label Unterstützender Akteur 2
-                    input.form-control(type='text', name='support2.name', value= project.support2.name, readonly=!canEdit )
                 .form-group
                     label Finanzielle Mittel
                     textarea.form-control(name='support2.funding', readonly=!canEdit, height=100 )= project.support2.funding

@@ -3,6 +3,7 @@ extends ../layouts/default
 block content
     .container: .jumbotron: .form-div
         form(action="/register/" + token.token, method="post")
+            h4 Neues Konto
             .form-group
                 label Email
                 input.form-control(type="email" name="email")

@@ -2,7 +2,7 @@ const keystone = require('keystone')
 const Types = keystone.Field.Types
 
 const Milestone = new keystone.List('Milestone', {
-    defaultSort: 'index',
+    defaultSort: 'date',
     nocreate: true,
     map: { name: 'key' },
 })

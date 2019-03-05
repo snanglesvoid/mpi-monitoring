@@ -31,14 +31,16 @@ EvaluationPeriod.schema.pre('save', async function(next) {
         let Milestone = keystone.list('Milestone').model
 
         projects.forEach(async p => {
-            if (!milestones.find(x => x.project.equals(p.id))) {
+            let m = milestones.find(x => x.project.equals(p.id))
+            if (!m) {
                 let m = new Milestone()
-                m.set({
-                    project: p.id,
-                    evaluationPeriod: this.id
-                })
-                await m.save()
             }
+            m.set({
+                project: p.id,
+                evaluationPeriod: this.id,
+                date: this.date
+            })
+            await m.save()
         })
     }
     catch(err) {
