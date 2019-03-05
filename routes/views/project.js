@@ -48,6 +48,10 @@ exports = module.exports = async (req, res) => {
             let field = opFields.find(x => x._id.equals(req.body['measure.field']))
             project.measure.field = field ? field.id : null 
             project.measure.goal = req.body['measure.goal']
+            let sd = new Date(req.body['measure.startDate'])
+            project.measure.startDate = isNaN(sd.getTime()) ? null : sd
+            let ed = new Date(req.body['measure.endDate'])
+            project.measure.endDate = isNaN(ed.getTime()) ? null : ed
 
             project.administration.institution = req.body['administration.institution']
             project.administration.name = req.body['administration.name']

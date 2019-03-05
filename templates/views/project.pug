@@ -6,16 +6,45 @@ block content
         br
 
         form#project-form(action=(canEdit ? '/project/' + project.projectId : ''), method = "post")
-            .form-group
-                label Projekt Id
-                input.form-control(type="text", value= project.projectId, readonly)
-            .form-group
-                label Zuletzt bearbeitet
-                input.form-control(type="text", value= project._.updatedAt.format('DD.M.YYYY : HH:mm'), readonly)
-            .form-group
-                label Notizen
-                div#notes.form-control(style="min-height: 160px; border: 1px solid #ccc; border-radius: 4px;")!= project.notes
-                textarea#notes-hidden(name="notes", cols="0", rows="0", style='display: none;' readonly = !canEdit)
+            button.accordion-toggle
+                h4 Projekt Info
+            .accordion-group
+                .form-group
+                    label Projekt Id
+                    input.form-control(type="text", value= project.projectId, readonly)
+                .form-group
+                    label Zuletzt bearbeitet
+                    input.form-control(type="text", value= project._.updatedAt.format('DD.M.YYYY : HH:mm'), readonly)
+                .form-group
+                    label Notizen
+                    div#notes.form-control(style="min-height: 160px; border: 1px solid #ccc; border-radius: 4px;")!= project.notes
+                    textarea#notes-hidden(name="notes", cols="0", rows="0", style='display: none;' readonly = !canEdit)
+                .form-group
+                    label Beteiligte Nutzer
+                    div(style='width: 100%;')
+                        table.table.item-list(cellpadding=0 cellspacing=0)
+                            colgroup
+                                col(width=26)
+                                col
+                                col
+                            thead
+                                tr
+                                    th
+                                    th Name
+                                    th Email
+                            tbody
+                                each user in project.writePermission
+                                    tr
+                                        td: span: i.far.fa-edit
+                                        td= user.name.first + " " + user.name.last
+                                        td
+                                            a(href='mailto:' + user.email)= user.email
+                                each user in project.readPermission.filter(x => !project.writePermission.find(y => x._id.equals(y._id)))
+                                    tr
+                                        td: span: i.far.fa-eye
+                                        td= user.name.first + " " + user.name.last
+                                        td
+                                            a(href='mailto:' + user.email)= user.email
             hr
             button.accordion-toggle
                 h4 Maßnahme
@@ -35,10 +64,14 @@ block content
                 .form-group
                     label Ziel der Maßnahme
                     textarea.form-control(name="measure.goal", rows=6, readonly=!canEdit)= project.measure.goal
+                -var pad = function(i) { let s = String(i); while(s.length < 2) {s = "0" + s}; return s; }
+                -var dateStr = function(d) { return d && d.constructor.name =='Date' ? `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}` : null}
                 .form-group
                     label Anfangsdatum
+                    input.form-control(type='date', readonly=!canEdit, name='measure.startDate', value= dateStr(project.measure.startDate))
                 .form-group
                     label Abschlussdatum
+                    input.form-control(type='date', readonly=!canEdit, name='measure.endDate', value= dateStr(project.measure.endDate))
             hr
             button.accordion-toggle
                 h4 Akteure
