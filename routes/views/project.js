@@ -25,7 +25,7 @@ exports = module.exports = async (req, res) => {
     locals.opFields = opFields || []
     locals.themeclusters = themeclusters || []
 
-    let canWrite = (project.writePermission || []).find(x => req.user.id == x.id) !== undefined
+    let canWrite = req.user.isAdmin || (project.writePermission || []).find(x => req.user.id == x.id) !== undefined
     let canRead = (project.readPermission || []).find(x => req.user.id == x.id) !== undefined || canWrite
 
     if (!canWrite && !canRead) {
