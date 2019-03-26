@@ -1,0 +1,68 @@
+extends ../layouts/default
+
+block content
+    .container
+        .row#top
+            .col-md-3.col-lg-3.col-sm-6
+                #drop Excel (.xlsx) Datei hier ablegen
+            .col-md-3.col-lg-3.col-sm-6
+                label(for='file') ...oder hier auswählen
+                input#file(type='file', value='')
+            .col-md-6.col-lg-6.col-sm-12
+                button#postbtn.btn.btn-primary(onclick="uploadJSON()", disabled) Hochladen
+
+        hr
+        .row#bottom
+            h5 Worsheet Auswahl
+            #buttons
+            #header
+                pre#out
+                h3 Tabellen Vorschau <br/>
+            #grid
+            #footnote
+
+block css
+    style.
+        #grid {
+            display: none;
+            height: 100px;
+        }
+        #out {
+            display: none;
+        }
+        #drop{
+            border:2px dashed #bbb;
+            -moz-border-radius:5px;
+            -webkit-border-radius:5px;
+            border-radius:5px;
+            padding:25px;
+            text-align:center;
+            width:128px;
+        }
+        #buttons button {
+            display: inline-block;
+            padding: 6px 9px;
+            margin: 0 2px 0 0;
+            font-size: 13px;
+            line-height: 24px;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            border: none;
+            -moz-user-select: none;
+            background-color: #bbb;
+            color: white;
+        }
+        #postbtn {
+            float: right;
+        }
+
+block js
+    script(src='/js/lib/shim.js')
+    script(src='https://unpkg.com/xlsx/dist/xlsx.full.min.js')
+    script(src='/js/lib/dropsheet.js')
+    script(src="//unpkg.com/canvas-datagrid/dist/canvas-datagrid.js")
+    script(src='/js/lib/alertify.js')
+    script(src='/js/lib/spin.js')
+    script(src='/js/admin/projects-upload.js')

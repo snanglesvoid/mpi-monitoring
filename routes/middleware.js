@@ -44,3 +44,12 @@ exports.requireUser = function (req, res, next) {
 		next();
 	}
 };
+
+exports.requireAdmin = function(req, res, next) {
+	if (req.user && req.user.isAdmin) {
+		next()
+	} else {
+		req.flash('error', 'Bitte melden Sie sich als Administrator an um Zugang zu dieser Seite zu erhalten.')
+		res.redirect('/login')
+	}
+}

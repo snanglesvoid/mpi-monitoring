@@ -1,6 +1,14 @@
 extends ../layouts/default
 
 block content
+  if user && user.canAccessKeystone
+    .container
+      h4 Administrator Funktionen:
+      ul
+        li
+          a(href='/password-generator') Passwort Generator
+        li
+          a(href='/projects-upload') Projekt-Überblick Tabelle hochladen
   if page
     .container(
       data-ks-editable= editable(user, { list: 'Page', id: page.id, path: '/'})

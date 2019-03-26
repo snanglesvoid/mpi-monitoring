@@ -16,9 +16,20 @@ Milestone.add({
     date: { type: Types.Date, required: true, default: Date.now, noedit: true },
     key: { type: Types.Text, noedit: true },
     description: { type: Types.Textarea, height: 100 },
+    deviationMeasure: { type: Types.Textarea, height: 100 },
+    challenges: { type: Types.Textarea, height: 100 },
+    contributions: { type: Types.Textarea, height: 100 },
+    needSupport: { type: Types.Boolean },
     notes: { type: Types.Textarea, height: 100 },
     state: { type: Types.Select, options: ['Noch nicht angefangen', 'In Bearbeitung', 'Abgeschlossen'], default: 'Noch nicht angefangen' },
+    state2: { type: Types.Select, options: [1,2,3,4,5] },
     evaluation: { type: Types.Select, options: [1,2,3,4,5] },
+    documents: { 
+        type: Types.LocalFile, dest: '/data/files', prefix: '/files/',
+        filename: function(item, file) {
+            return item.id + '.' + file.extension
+        }
+    }
 })
 
 Milestone.defaultColumns = 'key, projectId, date, state, evaluation'

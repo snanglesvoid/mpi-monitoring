@@ -22,4 +22,8 @@ exports = module.exports = function (app) {
 	app.all('/project/:id', middleware.requireUser, routes.views.project);
 	app.all('/login', routes.views.login);
 	app.all('/register/:token', routes.views.register);
+
+	app.get('/password-generator', middleware.requireAdmin, routes.views['password-generator'])
+	app.get('/projects-upload', middleware.requireAdmin, routes.views['projects-upload'].get)
+	app.post('/projects-upload', middleware.requireAdmin, routes.views['projects-upload'].post)
 };
