@@ -108,7 +108,8 @@ function uploadJSON () {
     console.log(_json)
     let spin = new Spinner().spin(document.getElementById('top'))
     $('#postbtn').attr('disabled', true)
-    $.post('/projects-upload', _json, (response) => {
+    let id = $('#projectId').val()
+    $.post('/project-detail-upload', {data: _json, projectId: id} , (response) => {
         console.log(response)
         spin.stop()
         $('#postbtn').attr('disabled', false)
@@ -119,14 +120,10 @@ function uploadJSON () {
           `)
         }
         else {
-          let counters = response.counters
-          let errors = response.errors
+          let errors = response.errors || {}
           $('#out').html(`
             <h3>Tabelle erfolgreich hochgeladen</h3>
-            <p>${counters.project.created} Projekte wurden erstellt</p>
-            <p>${counters.project.updated} Projekte wurden modifiziert</p>
-            <p>${counters.themecluster.created} Themencluster wurden erstellt</p>
-            <p>${counters.users.created} Nutzer wurden erstellt</p>
+            <p>${response.message}</p>
 
             <h3>Warnungen:</h3>
             ${

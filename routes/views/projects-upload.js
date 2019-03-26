@@ -98,7 +98,9 @@ module.exports.post = async (req, res) => {
             project.administration.institution = institution
             project.themecluster = tc._id
             if (user && writeEnabled) {
-                project.writePermission.push(user._id)
+                let wps = project.writePermission || []
+                if (!wps.find(x => x.equals(user._id))) wps.push(user._id)
+                project.writePermission = wps
             }
             await project.save()        
 

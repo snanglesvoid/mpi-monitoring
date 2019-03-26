@@ -2,7 +2,7 @@ extends ../layouts/default
 
 block content
     .container
-        .row: .col-md-12: h3 Projektübersichtstabelle Hochladen
+        .row: .col-md-12: h3 Projektstekbrief hochladen
         hr
         .row#top
             .col-md-3.col-lg-3.col-sm-3
@@ -11,6 +11,9 @@ block content
                 .form-group
                     label(for='file') ...oder hier auswählen
                     input#file.form-control(type='file', value='', style='background: transparent;')
+                .form-group
+                    label(for='projectId') Projekt ID
+                    input.form-control#projectId(type='text', placeholder='ie: 1.2.3', value='') 
             .col-md-3.col-lg-3.col-sm-3
                 button#postbtn.btn.btn-primary(onclick="uploadJSON()", disabled) Hochladen
         .row: .col-md-12#out
@@ -68,4 +71,4 @@ block js
     script(src="//unpkg.com/canvas-datagrid/dist/canvas-datagrid.js")
     script(src='/js/lib/alertify.js')
     script(src='/js/lib/spin.js')
-    script(src='/js/admin/projects-upload.js')
+    script(src='/js/admin/project-detail-upload.js')

@@ -26,4 +26,6 @@ exports = module.exports = function (app) {
 	app.get('/password-generator', middleware.requireAdmin, routes.views['password-generator'])
 	app.get('/projects-upload', middleware.requireAdmin, routes.views['projects-upload'].get)
 	app.post('/projects-upload', middleware.requireAdmin, routes.views['projects-upload'].post)
+	app.get('/project-detail-upload', middleware.requireAdmin, routes.views['project-detail-upload'].get)
+	app.post('/project-detail-upload', middleware.requireAdmin, routes.views['project-detail-upload'].post)
 };

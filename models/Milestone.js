@@ -7,6 +7,14 @@ const Milestone = new keystone.List('Milestone', {
     map: { name: 'key' },
 })
 
+const storageAdapter = new keystone.Storage({
+    adapter: keystone.Storage.Adapters.FS,
+    fs: {
+        path: '/data/files/',
+        publicPath: '/data/files'
+    }
+})
+
 Milestone.add({
     createdAt: { type: Types.Datetime, default: Date.now, noedit: true },
     updatedAt: { type: Types.Datetime, default: Date.now, noedit: true },
@@ -24,12 +32,7 @@ Milestone.add({
     state: { type: Types.Select, options: ['Noch nicht angefangen', 'In Bearbeitung', 'Abgeschlossen'], default: 'Noch nicht angefangen' },
     state2: { type: Types.Select, options: [1,2,3,4,5] },
     evaluation: { type: Types.Select, options: [1,2,3,4,5] },
-    documents: { 
-        type: Types.LocalFile, dest: '/data/files', prefix: '/files/',
-        filename: function(item, file) {
-            return item.id + '.' + file.extension
-        }
-    }
+    documents: { type: Types.File, storage: storageAdapter }
 })
 
 Milestone.defaultColumns = 'key, projectId, date, state, evaluation'
