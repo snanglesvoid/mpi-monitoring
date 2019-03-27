@@ -3,12 +3,12 @@ const Types = keystone.Field.Types
 
 const Project = new keystone.List('Project', {
     autokey: { path: 'slug', from: 'title', unique: true },
-    map: { name: 'title' },
+    map: { name: 'projectId' },
 })
 
 Project.add({
-    title: { type: Types.Text, required: true, index: true },
-    projectId: { type: Types.Key, required: true, initial: true, index: true },
+    title: { type: Types.Text, required: true, index: true, initial: true },
+    projectId: { type: Types.Text, required: true, initial: true, index: true, noedit: true },
     createdAt: { type: Types.Datetime, default: Date.now, noedit: true },
     updatedAt: { type: Types.Datetime, default: Date.now, noedit: true },
 

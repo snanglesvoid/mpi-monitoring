@@ -92,9 +92,14 @@ exports = module.exports = async (req, res) => {
             milestones.forEach(async milestone => {
                 let key = milestone.key
                 milestone.description = req.body[key + '.description']
+                milestone.deviationMeasure = req.body[key + '.deviationMeasure']
+                milestone.challenges = req.body[key + '.challenges']
+                milestone.contributions = req.body[key + '.contributions']
                 milestone.notes = req.body[key + '.notes']
                 milestone.state = req.body[key + '.state']
+                milestone.state2 = req.body[key + '.state2']
                 milestone.evaluation = req.body[key + '.evaluation']
+                milestone.needSupport = req.body[key + '.needSupport'] ? true : false
                 await milestone.save()
             })
         }

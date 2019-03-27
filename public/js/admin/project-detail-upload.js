@@ -124,8 +124,29 @@ function uploadJSON () {
           $('#out').html(`
             <h3>Tabelle erfolgreich hochgeladen</h3>
             <p>${response.message}</p>
-
-            <h3>Warnungen:</h3>
+            <ul>
+            <li><a href="/project/${response.projectId}">Projektseite</a></li>
+            <li><a href="/admin/projects/${response.id}">Projektseite (admin)</a></li>
+            </ul>
+            <h4>Änderungen:</h4>
+            <ul>
+            ${Object.keys(response.changes).map(x => "<li>" + x + "</li>").reduce((a,b) => a + b, "")}
+            </ul>
+            <h4>Updates</h4>
+            <ul>
+            <li>${response.updates.measureField.created} Handlungsfelder hinzugefügt</li>
+            <li>${response.updates.themecluster.created} Themencluster hinzugefügt</li>
+            </ul>
+            <h4>Warnungen:</h4>
+            <ul>
+            ${(function() {
+              let keys = Object.keys(response.errors)
+              if (keys.length == 0) return '<li>Keine</li>'
+              return keys.map(x => `
+                <li>${key}: ${response.errors[key]}</li>
+              `).reduce((a,b) => a+b, "")
+            }())}
+            </ul>
             ${
               Object.keys(errors).length == 0 ? '<p>keine</p>'
               : Object.keys(error).map(key => '<p>In Zeile'+key+':'+errors[key]+'</p>').reduce((a,b) => a + b, '')

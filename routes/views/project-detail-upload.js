@@ -199,39 +199,47 @@ module.exports.post = async (req, res) => {
     let mainPersonel = data[mainFundingIndex + 2][2]
     if (mainPersonel) {
         project.main.personel = mainPersonel
+        changes['Beiträge der federführenden Institution: Personal'] = true
     }
 
     let mainResources = data[mainFundingIndex + 3][2]
     if (mainResources) {
         project.main.resources = mainResources
+        changes['Beiträge der federführenden Institution: Resourcen'] = true
     }
 
     let support1FundingIndex = data.findIndex(row => row[1] === 'Beiträge des unterstützenden Akteurs 1')
     let support1Funding = data[support1FundingIndex + 1][2]
     if (support1Funding) {
         project.support1.funding = support1Funding
+        changes['Beiträge des unterstützenden Akteurs 1: Finanzielle Mittel'] = true
     }
     let support1Personel = data[support1FundingIndex + 2][2]
     if (support1Personel) {
         project.support1.personel = support1Personel
+        changes['Beiträge des unterstützenden Akteurs 1: Personal'] = true
     }
     let support1Resources = data[support1FundingIndex + 3][2]
     if (support1Resources) {
         project.support1.resources = support1Resources
+        changes['Beiträge des unterstützenden Akteurs 1: Resourcen'] = true
     }
 
     let support2FundingIndex = data.findIndex(row => row[1] === 'Beiträge des unterstützenden Akteurs 2')
     let support2Funding = data[support1FundingIndex + 1][2]
     if (support2Funding) {
         project.support2.funding = support2Funding
+        changes['Beiträge des unterstützenden Akteurs 2: Finanzielle Mittel'] = true
     }
     let support2Personel = data[support2FundingIndex + 2][2]
     if (support2Personel) {
         project.support2.personel = support2Personel
+        changes['Beiträge des unterstützenden Akteurs 2: Personal'] = true
     }
     let support2Resources = data[support2FundingIndex + 3][2]
     if (support2Resources) {
         project.support2.resources = support2Resources
+        changes['Beiträge des unterstützenden Akteurs 2: Resourcen'] = true
     }
 
     let tcs = []
@@ -278,7 +286,9 @@ module.exports.post = async (req, res) => {
         await project.save()
         res.json({
             status: 'success',
-            message: JSON.stringify(project),
+            message: 'Änderungen wurden übernommen',
+            projectId: project.projectId,
+            id: project._id,
             changes: changes,
             updates: updates,
             errors: errors

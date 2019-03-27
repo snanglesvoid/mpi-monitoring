@@ -10,8 +10,8 @@ const Milestone = new keystone.List('Milestone', {
 const storageAdapter = new keystone.Storage({
     adapter: keystone.Storage.Adapters.FS,
     fs: {
-        path: '/data/files/',
-        publicPath: '/data/files'
+        path: './data/files/',
+        publicPath: './data/files'
     }
 })
 
@@ -30,8 +30,16 @@ Milestone.add({
     needSupport: { type: Types.Boolean },
     notes: { type: Types.Textarea, height: 100 },
     state: { type: Types.Select, options: ['Noch nicht angefangen', 'In Bearbeitung', 'Abgeschlossen'], default: 'Noch nicht angefangen' },
-    state2: { type: Types.Select, options: [1,2,3,4,5] },
-    evaluation: { type: Types.Select, options: [1,2,3,4,5] },
+    state2: { type: Types.Select, options: [
+        { value: 1, label: 'Starke Abweichung von Plan' }, 
+        { value: 2, label: 'Abweichung vom Plan' },
+        { value: 3, label: 'Weitgehend im Plan' },
+        { value: 4, label: 'Voll im Plan' } ] },
+    evaluation: { type: Types.Select, options: [ 
+        { value: 1, label: 'Meilensteine wurden nicht erreicht' }, 
+        { value: 2, label: 'Meilensteine wurden teilweise erreicht' }, 
+        { value: 3, label: 'Meilensteine wurden weitgehend erreicht' },
+        { value: 4, label: 'Meilensteine wurden vollständig erreicht' }] },
     documents: { type: Types.File, storage: storageAdapter }
 })
 
