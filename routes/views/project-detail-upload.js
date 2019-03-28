@@ -283,20 +283,17 @@ module.exports.post = async (req, res) => {
     project.output.themecluster = tcs
     console.log(project)
     try {
-        project.save(err => {
-            console.log('error', err)
-            res.json({
-                status: 'success',
-                message: 'Änderungen wurden übernommen',
-                projectId: project.projectId,
-                id: project._id,
-                changes: changes,
-                updates: updates,
-                errors: errors
-            })
+        await project.save()
+        console.log('saved')
+        res.json({
+            status: 'success',
+            message: 'Änderungen wurden übernommen',
+            projectId: project.projectId,
+            id: project._id,
+            changes: changes,
+            updates: updates,
+            errors: errors
         })
-        // await project.save()
-        // console.log('saved')
     } 
     catch(error) {
         res.json({
