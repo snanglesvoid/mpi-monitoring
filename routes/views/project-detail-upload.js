@@ -245,7 +245,7 @@ module.exports.post = async (req, res) => {
     let tcs = []
     let tcindex = data.findIndex(row => row[1] === 'Beitrag der Maßnahme zu Themencluster')
     let tc1n = data[tcindex][2]
-    if (tc1n) {
+    if (tc1n && tc1n !== '[Bitte auswählen]') {
         let tc1 = themeclusters.find(x => x.title === tc1n)
         if (!tc1) {
             tc1 = new Themecluster({ title: tc1n })
@@ -256,7 +256,7 @@ module.exports.post = async (req, res) => {
         tcs.push(tc1._id)
     }
     let tc2n = data[tcindex+1][2]
-    if (tc2n && data[tcindex+1][1] === '') {
+    if (tc2n && tc2n !== '[Bitte auswählen]' && data[tcindex+1][1] === '') {
         let tc2 = themeclusters.find(x => x.title === tc2n)
         if (!tc2) {
             tc2 = new Themecluster({ title: tc2n })
@@ -267,7 +267,7 @@ module.exports.post = async (req, res) => {
         tcs.push(tc2._id)
     }
     let tc3n = data[tcindex+2][2]
-    if (tc3n && data[tcindex+1][1] === '' && data[tcindex+2][1] === '') {
+    if (tc3n && tc3n !== '[Bitte auswählen]' && data[tcindex+1][1] === '' && data[tcindex+2][1] === '') {
         let tc3 = themeclusters.find(x => x.title === tc3n)
         if (!tc3) {
             tc3 = new Themecluster({ title: tc3n })
