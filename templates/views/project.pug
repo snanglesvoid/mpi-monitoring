@@ -46,7 +46,7 @@ block content
                                         td
                                             a(href='mailto:' + user.email)= user.email
             hr
-            button.accordion-toggle
+            button.accordion-toggle#measure
                 h4 Maßnahme
             .accordion-group
                 .form-group
@@ -163,7 +163,7 @@ block content
                 button.accordion-toggle
                     h4
                         | #{milestone.key}
-                        span(style='float: right; font-size:14px;'): em Fällig am #{milestone._.date.format('DD.M.YYYY')}
+                        span(style='float: right; font-size:14px;'): em Fällig am #{milestone._.date.format('DD.MM.YYYY')}
                 .accordion-group
                     .form-group
                         label Projektstatus 1
@@ -303,6 +303,8 @@ block js
                         return false
                     }
                 })
+
+                $('#measure').click()
             })
     else
         script.

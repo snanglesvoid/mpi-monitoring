@@ -12,15 +12,15 @@ exports = module.exports = async (req, res) => {
     .exec()
 
     if (!project) {
-        req.flash('Kein Projekt mit dieser projektId konnte gefunden werden!')
+        req.flash('error', 'Kein Projekt mit dieser projektId konnte gefunden werden!')
         return view.render('errors/404')
     }
 
     let milestones = await keystone.list('Milestone').model.find({ project : project.id })
         .sort('date')
         .exec()
-    let opFields = await keystone.list('OperationField').model.find().exec()
-    let themeclusters = await keystone.list('Themecluster').model.find().exec()
+    let opFields = await keystone.list('OperationField').model.find().sort('title').exec()
+    let themeclusters = await keystone.list('Themecluster').model.find().sort('-title').exec()
 
     locals.opFields = opFields || []
     locals.themeclusters = themeclusters || []

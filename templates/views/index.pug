@@ -11,8 +11,74 @@ block content
           a(href='/projects-upload') Projekt-Überblick Tabelle hochladen
         li
           a(href='/project-detail-upload') Projektstekbrief hochladen
-  if page
+  .container
+    .row
+      .col-sm-8#textcolumn
+        h3 Masterplan Industriestadt Berlin -- Geschäftsstelle
+        p Am 4. September 2018 hat der Berliner Senat die dritte Fortschreibung des Masterplans Industriestadt Berlin verabschiedet und damit den zentralen Stellenwert einer zukunftsorientierten, ganzheitlichen und langfristig wirksamen Industriepolitik für die Koalition unterstrichen. Die erfolgreiche Umsetzung ist eine Querschnittsaufgabe, die nur im Schulterschluss aller Beteiligten gelingen kann. Dabei kommt klaren Zielsetzungen, einem kontinuierlich aktivierenden Austausch mit allen Partnern sowie der ergebnisorientierten Begleitung und Förderung der Maßnahmenumsetzung eine besondere Bedeutung zu.
+        p Mit der Etablierung einer koordinierenden Geschäftsstelle stellt die Senatsverwaltung für Wirtschaft, Energie und Betriebe ein zentrales Projektmanagement für den gesamten Umsetzungsprozess des Masterplans (2018-2021) sicher.
+        h3 Selbstverständnis Geschäftsstelle Masterplan (GSt MPI)
+        p Am 1. März 2019 haben wir als Geschäftsstelle unsere Arbeit im Auftrag der Senatsverwaltung aufgenommen. Um eine effektive Umsetzung der Themenfelder zu gewährleisten, ist es unser Anspruch, neben dem Nachhalten aller Einzelmaßnahmen auch inhaltliche, steuernde und innovative Impulse zu geben. Darüber hinaus führen wir zweimal im Jahr ein Monitoring zum Umsetzungsstand der Einzelprojekte durch und bereiten die Ergebnisse entsprechend auf.
+        img(src='/images/reporting_600.jpg' style='width: 100%;')
+        p Der zu managende Entwicklungsprozess ist agil, flexibel und ergebnisoffen; er ermutigt die Gestaltungsfreude der jeweiligen Protagonisten. Wir unterstützen den Transfer von der  Planung bis hin zurImplementierung organisatorisch und inhaltlich und sind bei Fragen und Herausforderungen erste Anlaufstelle für die jeweils federführende Institution in Einzelprojekten. Zugleich informieren wir über Fortschritte, fördern den Austausch und die Vernetzung der Akteure und moderieren Lösungsfindungen. 
+        p Wir fungieren zudem als Ansprechpartner für alle flankierenden Stakeholder aus Wirtschaft, Verwaltung und Institutionen sowie Politik und Medien.
+        p Die Geschäftsstelle hat ihren Sitz bei der Senatsverwaltung für Wirtschaft, Energie und Betriebe in der Martin-Luther-Straße 105, 10825 Berlin. 
+        p Sie ist unter Tel.: +49 30 5870 9070 bzw. eMail: post@industriestadt-berlin.de erreichbar.<br/>Ihre Ansprechpartner:
+
+        p
+          | Eric Herbstreit <br/>
+          | Leitung Geschäftsstelle <br/> (
+          a(href='mailto:eh@industriestadt-berlin.de') mailto:eh@industriestadt-berlin.de
+          | )
+
+        p
+          | Anne Kelsch <br/>
+          | Projektassistenz Geschäftsstelle <br/>(
+          a(href='mailto:ak@industriestadt-berlin.de') mailto:ak@industriestadt-berlin.de
+          | )
+        br
+        br
+      .col-sm-4#logincolumn
+        if user
+          a.btn.btn-primary.btn-block(href='/admin/signout') Abmelden
+          br
+        else
+          form(action='/login' method='post')
+            h4 Anmelden
+            .form-group
+              label Email
+              input.form-control(type="email", name='email')
+            .form-group
+              label Passwort
+              input.form-control(type='password', name='password')
+            button.btn.btn-primary.btn-block(type='submit') Anmelden
+            br
+          
+  //- if page
     .container(
       data-ks-editable= editable(user, { list: 'Page', id: page.id, path: '/'})
     )
       div!= page.content
+
+
+block css
+  style.
+    img {
+      margin-bottom: 3rem;
+    }
+    p {
+      margin-bottom: 2rem;
+    }
+    h3 {
+      margin-bottom: 3rem;
+    }
+    @media screen and (min-width: 1020px) {
+      #textcolumn {
+        padding-right: 50px;
+      }
+    }
+    #logincolumn {
+      background: #EEE;
+      border-radius: 8px;
+      padding: 20px;
+    }
