@@ -142,7 +142,7 @@ function uploadJSON () {
             ${(function() {
               let keys = Object.keys(response.errors)
               if (keys.length == 0) return '<li>Keine</li>'
-              return keys.map(x => `
+              return keys.map(key => `
                 <li>${key}: ${response.errors[key]}</li>
               `).reduce((a,b) => a+b, "")
             }())}

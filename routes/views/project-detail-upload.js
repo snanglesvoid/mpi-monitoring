@@ -55,7 +55,7 @@ module.exports.post = async (req, res) => {
             message: 'Kein Projekt zu der Id ' + projectId + ' konnte gefunden werden.'
         })
     }
-
+    
     let data = req.body.data
     let errors = {}
     let changes = {}
@@ -281,18 +281,22 @@ module.exports.post = async (req, res) => {
     console.log('tcs', tcs, tc1n, tc2n, tc3n)
 
     project.output.themecluster = tcs
-
+    console.log(project)
     try {
-        await project.save()
-        res.json({
-            status: 'success',
-            message: 'Änderungen wurden übernommen',
-            projectId: project.projectId,
-            id: project._id,
-            changes: changes,
-            updates: updates,
-            errors: errors
+        project.save(err => {
+            console.log('error', err)
+            res.json({
+                status: 'success',
+                message: 'Änderungen wurden übernommen',
+                projectId: project.projectId,
+                id: project._id,
+                changes: changes,
+                updates: updates,
+                errors: errors
+            })
         })
+        // await project.save()
+        // console.log('saved')
     } 
     catch(error) {
         res.json({

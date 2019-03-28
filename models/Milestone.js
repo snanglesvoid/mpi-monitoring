@@ -20,7 +20,7 @@ Milestone.add({
     updatedAt: { type: Types.Datetime, default: Date.now, noedit: true },
     evaluationPeriod: { type: Types.Relationship, ref: 'EvaluationPeriod', required: true, noedit: true },
     project: { type: Types.Relationship, ref: 'Project', noedit: true, index: true },
-    projectId: { type: Types.Key, noedit: true, index: true },
+    projectId: { type: Types.Text, noedit: true, index: true },
     date: { type: Types.Date, required: true, default: Date.now, noedit: true },
     key: { type: Types.Text, noedit: true },
     description: { type: Types.Textarea, height: 100 },
