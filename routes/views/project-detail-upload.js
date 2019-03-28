@@ -281,10 +281,9 @@ module.exports.post = async (req, res) => {
     console.log('tcs', tcs, tc1n, tc2n, tc3n)
 
     project.output.themecluster = tcs
-    console.log(project)
+
     try {
         await project.save()
-        console.log('saved')
         res.json({
             status: 'success',
             message: 'Änderungen wurden übernommen',

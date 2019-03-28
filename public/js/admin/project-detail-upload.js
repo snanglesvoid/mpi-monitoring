@@ -147,10 +147,6 @@ function uploadJSON () {
               `).reduce((a,b) => a+b, "")
             }())}
             </ul>
-            ${
-              Object.keys(errors).length == 0 ? '<p>keine</p>'
-              : Object.keys(error).map(key => '<p>In Zeile'+key+':'+errors[key]+'</p>').reduce((a,b) => a + b, '')
-            }
           `)
         }
         $('#out').css('display', 'block')
