@@ -4,6 +4,7 @@ exports = module.exports = async (req, res) => {
     let view = new keystone.View(req, res)
 
     let locals = res.locals
+    locals.showFooter = false
 
     let project = await keystone.list('Project').model.findOne({
         projectId : req.params.id,
