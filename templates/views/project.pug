@@ -148,7 +148,7 @@ block content
                     label Beschreibung
                         span.info ?
                             div.info-content
-                                p Produkt oder erreichtes Ziel der Maßnahme, z.B. Broschüre, Veranstaltung, zu schaffende Unterlagen, "greifbare" Ergebnisse. Wichtig hierbei ist, dass das Output so beschrieben wird, dass Außenstehende zum Ende des Projekts feststellen können ob das Ziel erreicht bzw. nicht erreicht wurde.
+                                p Produkt oder erreichtes Ziel der Maßnahme, z.B. Broschüre, Veranstaltung, zu schaffende Unterlagen, "greifbare" Ergebnisse. Wichtig hierbei ist, dass das Output so beschrieben wird, dass Außenstehende zum Ende des Projekts feststellen können, ob das Ziel erreicht bzw. nicht erreicht wurde.
                     textarea.form-control(name='output.description', readonly=!canEdit, height=100 )= project.output.description
                 .form-group
                     label Beitrag der Maßnahme zur Entwicklung der Industriestadt Berlin
@@ -255,7 +255,7 @@ block content
                         label Kurzbeschreibung Projektstatus
                         textarea.form-control(name= milestone.key + '.description', readonly=!canEdit)= milestone.description
                     .form-group
-                        label Maßnahme bei Abweichungen vom Plan
+                        label Aktivitäten bei Abweichungen vom Plan
                         textarea.form-control(name= milestone.key + '.deviationMeasure', readonly=!canEdit)= milestone.deviationMeasure
                     .form-group
                         label Besondere Herausforderungen
@@ -264,13 +264,13 @@ block content
                         label Beitrag zu anderen Themenclustern
                             span.info ?
                                 .info-content
-                                    p Trägt Ihre Massnahme zu andere Themenclustern bei? Bitte beschreiben Sie diese Beiträge.
+                                    p Trägt Ihre Maßnahme zu anderen Themenclustern bei? Bitte beschreiben Sie diese Beiträge.
                         textarea.form-control(name= milestone.key + '.contributions', readonly=!canEdit)= milestone.contributions
                     .form-group
                         label Unterstützungsbedarf
                             span.info ?
                                 .info-content
-                                    p  Ich habe weiteren Unterstützungsbedarf und bitte um Kontaktaufnahme druch die MPI Geschäftsstelle.
+                                    p  Ich habe weiteren Unterstützungsbedarf und bitte um Kontaktaufnahme durch die MPI Geschäftsstelle.
                         div(style='width: 100%;')
                             input(type='checkbox', name= milestone.key + '.needSupport', checked= milestone.needSupport,
                                 style='background: transparent; border: none; width: 18px; height: 18px;'
