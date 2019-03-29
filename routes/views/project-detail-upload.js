@@ -181,11 +181,16 @@ module.exports.post = async (req, res) => {
         console.log('Beitrag der Maßnahme zur Entwicklung der Industriestadt Berlin: ', project.output.contribution)
     }
 
-    let outputIndicators = data.find(row => row[1] === 'Projektindividuelle Indikatoren')[2]
-    if (outputIndicators) {
-        project.output.indicators = outputIndicators
-        changes['Projektindividuelle Indikatoren'] = true
-        console.log('Projektindividuelle Indikatoren', project.output.indicators)
+    let datarow = data.find(row => row[1] === 'Projektindividuelle Indikatoren')
+    if (!datarow || datarow.length < 3) {
+        errors['Projektindividuelle Indikatoren'] = 'Zeile konnte nicht gefunden werden'
+    }  else {
+        let outputIndicators = data.find(row => row[1] === 'Projektindividuelle Indikatoren')[2]
+        if (outputIndicators) {
+            project.output.indicators = outputIndicators
+            changes['Projektindividuelle Indikatoren'] = true
+            console.log('Projektindividuelle Indikatoren', project.output.indicators)
+        }
     }
 
     let mainFundingIndex = data.findIndex(row => row[1] === 'Beiträge der federführenden Institution')
