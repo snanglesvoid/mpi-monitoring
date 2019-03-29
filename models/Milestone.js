@@ -29,7 +29,7 @@ Milestone.add({
     contributions: { type: Types.Textarea, height: 100 },
     needSupport: { type: Types.Boolean },
     notes: { type: Types.Textarea, height: 100 },
-    state: { type: Types.Select, options: ['Noch nicht angefangen', 'In Bearbeitung', 'Abgeschlossen'], default: 'Noch nicht angefangen' },
+    state: { type: Types.Select, options: ['Noch nicht angefangen', 'In Bearbeitung', 'Abgeschlossen', 'Bearbeitung eingestellt'], default: 'Noch nicht angefangen' },
     state2: { type: Types.Select, options: [
         { value: 1, label: 'Starke Abweichung von Plan' }, 
         { value: 2, label: 'Abweichung vom Plan' },

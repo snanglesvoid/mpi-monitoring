@@ -90,9 +90,15 @@ block content
                     input.form-control(type='text', name='administration.phone', value=project.administration.phone, readonly=!canEdit)
                 .form-group
                     label Unterstützender Akteur 1
+                        span.info ?
+                            div.info-content
+                                p Namen der Institutionen/ Ansprechpersonen und deren Rolle in dem Vorhaben
                     input.form-control(type='text', name='support1.name', value= project.support1.name, readonly=!canEdit )
                 .form-group
                     label Unterstützender Akteur 2
+                        span.info ?
+                            div.info-content
+                                p Namen der Institutionen/ Ansprechpersonen und deren Rolle in dem Vorhaben
                     input.form-control(type='text', name='support2.name', value= project.support2.name, readonly=!canEdit )  
             hr
             button.accordion-toggle
@@ -140,16 +146,25 @@ block content
             .accordion-group
                 .form-group
                     label Beschreibung
+                        span.info ?
+                            div.info-content
+                                p Produkt oder erreichtes Ziel der Maßnahme, z.B. Broschüre, Veranstaltung, zu schaffende Unterlagen, "greifbare" Ergebnisse. Wichtig hierbei ist, dass das Output so beschrieben wird, dass Außenstehende zum Ende des Projekts feststellen können ob das Ziel erreicht bzw. nicht erreicht wurde.
                     textarea.form-control(name='output.description', readonly=!canEdit, height=100 )= project.output.description
                 .form-group
                     label Beitrag der Maßnahme zur Entwicklung der Industriestadt Berlin
+                        span.info ?
+                            div.info-content
+                                p Beschreibung wie der "Output" zur Entwicklung der Industriestadt Berlin beitragen soll
                     textarea.form-control(name='output.contribution', readonly=!canEdit, height=100)= project.output.contribution
                 .form-group
                     label Beitrag der Maßnahme zu Themencluster
+                        span.info ?
+                            div.info-content
+                                p Hier sollen die (ein bis drei) Themencluster ausgewählt werden, zu denen die Maßnahme einen Beitrag leistet
                     br
-                    div(style='min-height: 34px; height: auto; width: 100%;', readonly=!canEdit)
+                    div(style='min-height: 34px; height: auto; width: 100%;', readonly=!canEdit): div(style='width: 100%; display: flex; flex-wrap: wrap;')
                         each tc in themeclusters
-                            div.checkbox-label
+                            div.checkbox-label.themecluster
                                 input(type='checkbox', name=tc.title, value=tc._id, disabled=!canEdit
                                     checked= project.output.themecluster.find(x => x._id.equals(tc._id)) ? 'checked' : false
                                 )
@@ -175,10 +190,15 @@ block content
                                 option(value= txt  selected= milestone.state==txt)= txt
                                 -var txt = "Abgeschlossen"
                                 option(value= txt  selected= milestone.state==txt)= txt
+                                -var txt = "Bearbeitung eingestellt"
+                                option(value= txt  selected= milestone.state==txt)= txt
                         else
                             input(readonly, type='text', value= milestone.state).form-control
                     .form-group
                         label Projektstatus 2
+                            span.info ?
+                                div.info-content
+                                    p Auf einer Skala von 1 bis 4: Wie schätzen Sie den Fortschritt des Projektes insgesamt ein?
                         div(style='width: 100%;')
                             -var name= milestone.key + '.state2'
                             span.radio-container(style='background: #cc3232;')
@@ -204,6 +224,9 @@ block content
                             span.textlabel(style='float: right; display: inline-block;')
                     .form-group
                         label Umsetzung der Meilensteine
+                            span.info ?
+                                div.info-content
+                                    p Wie schätzen Sie die Erreichung der von Ihnen definierten Meilensteine im 1. Berichtsturnus ein? Bewertung auf Skala 1-4, Wert 1: Meilensteine wurden nicht erreicht; Wert 4: Definierte Meilensteine wurden im Berichtsturnus vollständig erreicht. 
                         div(style='width: 100%;')
                             -var name= milestone.key + '.evaluation'
                             span.radio-container(style='background: #cc3232;')
@@ -239,12 +262,18 @@ block content
                         textarea.form-control(name= milestone.key + '.challenges', readonly=!canEdit)= milestone.challenges
                     .form-group
                         label Beitrag zu anderen Themenclustern
+                            span.info ?
+                                .info-content
+                                    p Trägt Ihre Massnahme zu andere Themenclustern bei? Bitte beschreiben Sie diese Beiträge.
                         textarea.form-control(name= milestone.key + '.contributions', readonly=!canEdit)= milestone.contributions
                     .form-group
                         label Unterstützungsbedarf
+                            span.info ?
+                                .info-content
+                                    p  Ich habe weiteren Unterstützungsbedarf und bitte um Kontaktaufnahme druch die MPI Geschäftsstelle.
                         div(style='width: 100%;')
                             input(type='checkbox', name= milestone.key + '.needSupport', checked= milestone.needSupport,
-                                style='background: transparent; border: none; width: 24px; height: 24px;'
+                                style='background: transparent; border: none; width: 18px; height: 18px;'
                             )
                     .form-group
                         label Notizen
@@ -267,6 +296,46 @@ block js
                 e.preventDefault()
                 return false;
             })
+            function showTooltip() {
+                console.log('show tooltip')
+                let $span = $(this)
+                $('span.info').css('z-index', 8)
+                $span.css('z-index', 11)
+                $span.css('border', 'none')
+                let text = $span.attr('data-text')
+
+                let x = $span.offset().left
+                let y = $span.offset().top - $(window).scrollTop()
+
+                $('.tooltip').remove()
+
+                $('#body').append(`
+                    <div class='tooltip'
+                         style='top: ${y}px; left: ${x}px;'
+                    >
+                        
+                    </div>
+                `)
+                $('.tooltip').html($span.find('.info-content').html())
+                    .on('mouseout', hideTooltip)
+                    .on('click', hideTooltip)
+                    .animate({
+                        opacity: 1
+                    }, 500)
+            }
+            function hideTooltip() {
+                $('.tooltip')
+                    .animate({
+                        opacity: 0
+                    }, 500, function() {
+                        $('span.info').css('z-index', 8)
+                        $('span.info').css('border', '1px solid green')
+                        $('.tooltip').remove()
+                    })
+            }
+            
+            $('span.info').on('mouseover', showTooltip)
+            //- $('span.info').on('mouseout', hideTooltip)
         })
     if canEdit
         script.
@@ -312,5 +381,50 @@ block js
                 $('#notes').css('background', '#eee')
             })
 
+block css
+    style.
+        .form-group label {
+            position: relative;
+        }
+        .checkbox-label {
+            width: 240px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        span.info {
+            float: right;
+            display: inline-block;
+            height: 18px;
+            width: 18px;
+            text-align: center;
+            line-height: 18px;
+            background: lightgreen;
+            border-radius: 50%;
+            z-index: 11;
+            position: absolute;
+            right: 8px;
+            top: 0;
+            box-sizing: content-box;
+            border: 1px solid green;
+        }
 
+        .tooltip {
+            width: 360px;
+            position: fixed;
+            background: lightgreen;
+            border-radius: 8px;
+            opacity: 0;
+            padding: 8px;
+            padding-left: 16px;
+            padding-right: 16px;
+            z-index: 10;
+            font-size: 1.4rem;
+        }
+        .tooltip p {
+            font-size: 1.4rem;
+        }
 
+        .info-content {
+            display: none;
+        }

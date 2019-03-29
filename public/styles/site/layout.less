@@ -168,12 +168,19 @@ button.btn-link:hover {
 .navbar-placeholder {
 	height: 0;
 }
+#logincolumn {
+	form {
+		.form-group {
+			display: block;
+		}
+	}
+}
 @media screen and (min-width: 764px) {
-	:not('#logincolumn') .form-group {
+	.form-group {
 		display: flex;
 		label{
-			width: 200px;
-			padding-right: 10px;
+			width: 240px;
+			padding-right: 30px;
 		} 
 	}
 	.navbar.navbar-primary {
