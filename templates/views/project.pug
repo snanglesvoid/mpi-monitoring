@@ -68,10 +68,12 @@ block content
                 -var dateStr = function(d) { return d && d.constructor.name =='Date' ? `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}` : null}
                 .form-group
                     label Anfangsdatum
-                    input.form-control(type='date', readonly=!canEdit, name='measure.startDate', value= dateStr(project.measure.startDate))
+                    input.form-control.datepicker#dp1(type='text', readonly=!canEdit, name='measure.startDate', m-date = project.measure.startDate)
+                    //- value= dateStr(project.measure.startDate))
                 .form-group
                     label Abschlussdatum
-                    input.form-control(type='date', readonly=!canEdit, name='measure.endDate', value= dateStr(project.measure.endDate))
+                    input.form-control.datepicker#dp2(type='text', readonly=!canEdit, name='measure.endDate', m-date = project.measure.endDate)
+                    //- value= dateStr(project.measure.endDate))
             hr
             button.accordion-toggle
                 h4 Akteure
@@ -299,8 +301,37 @@ block content
                     button#resetbtn.btn.btn-link(style='background: transparent;') Änderungen Zurücksetzen
 
 block js
+    script(src='/js/lib/jquery-ui.min.js')
     script.
         $(function() {
+           
+            $('.datepicker').datepicker({
+                prevText: '&#x3c;zurück', prevStatus: '',
+                prevJumpText: '&#x3c;&#x3c;', prevJumpStatus: '',
+                nextText: 'Vor&#x3e;', nextStatus: '',
+                nextJumpText: '&#x3e;&#x3e;', nextJumpStatus: '',
+                currentText: 'heute', currentStatus: '',
+                todayText: 'heute', todayStatus: '',
+                clearText: '-', clearStatus: '',
+                closeText: 'schließen', closeStatus: '',
+                monthNames: ['Januar','Februar','März','April','Mai','Juni',
+                'Juli','August','September','Oktober','November','Dezember'],
+                monthNamesShort: ['Jan','Feb','Mär','Apr','Mai','Jun',
+                'Jul','Aug','Sep','Okt','Nov','Dez'],
+                dayNames: ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
+                dayNamesShort: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+                dayNamesMin: ['So','Mo','Di','Mi','Do','Fr','Sa'],
+                showMonthAfterYear: false,
+                //- showOn: 'both',
+                //- buttonImage: '/images/calendar.png',
+                buttonImageOnly: true,
+                dateFormat:'dd. MM, yy',
+            } )
+            $('.datepicker').each(function() {
+                let $dp = $(this)
+                $dp.datepicker('setDate', new Date($dp.attr('m-date')))
+            })
+
             $('.accordion-toggle').click(function(e) {
                 console.log('click')
                 $(this).toggleClass('active')
@@ -358,6 +389,9 @@ block js
 
                 $('#project-form').submit(function() {
                     $('#notes-hidden').val($('#notes').html())
+                    $('.datepicker').each(function() {
+                        $(this).val($(this).datepicker('getDate'))
+                    })
                 })
 
                 $('.radio-container').click(function() {
@@ -404,6 +438,7 @@ block js
             })
 
 block css
+    link(rel='stylesheet' href='/styles/jquery-ui.min.css')
     style.
         .form-group label {
             position: relative;
