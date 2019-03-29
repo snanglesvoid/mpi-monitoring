@@ -373,6 +373,16 @@ block js
                     }
                 })
 
+                let $tcCheckboxes = $('.checkbox-label.themecluster').find('input[type=checkbox]')
+                $tcCheckboxes.on('click', function() {
+                    $(this).attr('checked', !$(this).attr('checked'))
+                    let count = $('.checkbox-label.themecluster').find('input[type=checkbox]').filter('[checked]').size()
+                    if (count > 3) {
+                        alert('Es können nicht mehr als drei Themencluster ausgewählt werden.')
+                        $(this).attr('checked', false)
+                    }
+                })
+
                 $('#measure').click()
             })
     else
@@ -387,7 +397,7 @@ block css
             position: relative;
         }
         .checkbox-label {
-            width: 240px;
+            width: 280px;
             white-space: nowrap;
             text-overflow: ellipsis;
             overflow: hidden;
