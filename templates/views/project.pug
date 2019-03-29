@@ -142,6 +142,9 @@ block content
                     em Beiträge des unterstützenden Akteurs 2
                 .form-group
                     label Finanzielle Mittel
+                        span.info ?
+                            div.info-content
+                                p Betrag in Euro
                     textarea.form-control(name='support2.funding', readonly=!canEdit, height=100 )= project.support2.funding
                 .form-group
                     label Personal
