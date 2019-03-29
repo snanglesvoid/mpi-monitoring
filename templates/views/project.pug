@@ -106,11 +106,17 @@ block content
             .accordion-group
                 .form-group
                     label Budget der Maßnahme
+                        span.info ?
+                            div.info-content
+                                p Betrag in Euro
                     textarea.form-control(name='budget', height=100, readonly=!canEdit)= project.budget
                 h5
                     em Beiträge der federführenden Institution
                 .form-group
                     label Finanzielle Mittel
+                        span.info ?
+                            div.info-content
+                                p Betrag in Euro
                     textarea.form-control(name='main.funding', readonly=!canEdit, height=100 )= project.main.funding
                 .form-group
                     label Personal
@@ -122,6 +128,9 @@ block content
                     em Beiträge des unterstützenden Akteurs 1
                 .form-group
                     label Finanzielle Mittel
+                        span.info ?
+                            div.info-content
+                                p Betrag in Euro
                     textarea.form-control(name='support1.funding', readonly=!canEdit, height=100 )= project.support1.funding
                 .form-group
                     label Personal
