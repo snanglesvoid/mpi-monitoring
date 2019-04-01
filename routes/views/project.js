@@ -52,8 +52,10 @@ exports = module.exports = async (req, res) => {
             project.measure.field = field ? field.id : null 
             project.measure.goal = req.body['measure.goal']
             let sd = new Date(req.body['measure.startDate'])
+            console.log('startdate', sd, sd.getTime(), isNaN(sd.getTime()))
             project.measure.startDate = isNaN(sd.getTime()) ? null : sd
             let ed = new Date(req.body['measure.endDate'])
+            console.log('enddate', ed, ed.getTime(), isNaN(ed.getTime()))
             project.measure.endDate = isNaN(ed.getTime()) ? null : ed
 
             project.administration.institution = req.body['administration.institution']

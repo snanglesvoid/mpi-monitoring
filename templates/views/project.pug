@@ -5,7 +5,8 @@ block content
         h3= project.title
         br
 
-        form#project-form(action=(canEdit ? '/project/' + project.projectId : ''), method = "post")
+        form#project-form(action=(canEdit ? '/project/' + project.projectId : ''), method = "post", autocomplete="off")
+            input(autocomplete="false" name="hidden" type="text" style="display:none;")
             button.accordion-toggle
                 h4 Projekt Info
             .accordion-group
@@ -51,7 +52,8 @@ block content
             .accordion-group
                 .form-group
                     label Beschreibung
-                    input.form-control(type="text", value= project.measure.description, name="measure.description" readonly = !canEdit)
+                    //- input.form-control(type="text", value= project.measure.description, name="measure.description" readonly = !canEdit)
+                    textarea.form-control(name='measure.description', readonly=!canEdit, height=100)= project.measure.description
                 .form-group
                     label Handlungsfeld
                     if canEdit
@@ -195,7 +197,7 @@ block content
                         span(style='float: right; font-size:14px;'): em Fällig am #{milestone._.date.format('DD.MM.YYYY')}
                 .accordion-group
                     .form-group
-                        label Projektstatus 1
+                        label Projektstatus 1 (allgemeil)
                         if canEdit
                             select(name= milestone.key + '.state', readonly=!canEdit).form-control
                                 -var txt = "Noch nicht angefangen"
@@ -209,10 +211,10 @@ block content
                         else
                             input(readonly, type='text', value= milestone.state).form-control
                     .form-group
-                        label Projektstatus 2
+                        label Projektstatus 2 (Projektfortschritt)
                             span.info ?
                                 div.info-content
-                                    p Auf einer Skala von 1 bis 4: Wie schätzen Sie den Fortschritt des Projektes insgesamt ein?
+                                    p Auf der folgenden Skala: Wie schätzen Sie den Fortschritt des Projekts insgesamt ein? Rot: starke Abweichung vom Plan; Orange: Abweichung vom Plan; Hellgrün: weitgehend im Plan und Dunkelgrün: voll im Plan
                         div(style='width: 100%;')
                             -var name= milestone.key + '.state2'
                             span.radio-container(style='background: #cc3232;')
@@ -237,10 +239,15 @@ block content
                                 .middle
                             span.textlabel(style='float: right; display: inline-block;')
                     .form-group
-                        label Umsetzung der Meilensteine
+                        label Kurzbeschreibung Projektstatus
+                            span.info ?
+                                .info-content
+                                    p Bitte führen Sie hier kurz aus, warum Sie sich für den Projektstatus entschieden haben.
+                    .form-group
+                        label Umsetzungsstatus der von Ihnen definierten Meilensteine
                             span.info ?
                                 div.info-content
-                                    p Wie schätzen Sie die Erreichung der von Ihnen definierten Meilensteine im 1. Berichtsturnus ein? Bewertung auf Skala 1-4, Wert 1: Meilensteine wurden nicht erreicht; Wert 4: Definierte Meilensteine wurden im Berichtsturnus vollständig erreicht. 
+                                    p Auf der folgenden Skala: Wie schätzen Sie die Erreichung der von Ihnen definierten Meilensteine im 1. Berichtsturnus ein? Rot: Meilensteine wurden nicht erreicht; Orange: Meilensteine wurden teilweise erreicht; Hellgrün: 4: Meilensteine wurden weitgehend erreicht und Dunkelgrün: Definierte Meilensteine wurden im 1. Berichtsturnus vollständig erreicht
                         div(style='width: 100%;')
                             -var name= milestone.key + '.evaluation'
                             span.radio-container(style='background: #cc3232;')
@@ -265,14 +272,18 @@ block content
                                 .middle
                             span.textlabel(style='float: right; display: inline-block;')
                     
-                    .form-group
-                        label Kurzbeschreibung Projektstatus
                         textarea.form-control(name= milestone.key + '.description', readonly=!canEdit)= milestone.description
                     .form-group
                         label Aktivitäten bei Abweichungen vom Plan
+                            span.info ?
+                                .info-content
+                                    p Bitte beschreiben Sie kurz, welche Aktivitäten Sie bei Abweichungen vom Projektplan unternehmen wollen bzw. werden.
                         textarea.form-control(name= milestone.key + '.deviationMeasure', readonly=!canEdit)= milestone.deviationMeasure
                     .form-group
                         label Besondere Herausforderungen
+                            span.info
+                                .info-content
+                                    p Bitte beschreiben Sie kurz, ob besondere Herausforderungen auftreten, aufgetreten sind oder aktuell einer erfolgreichen Projektumsetzung im Wege stehen.
                         textarea.form-control(name= milestone.key + '.challenges', readonly=!canEdit)= milestone.challenges
                     .form-group
                         label Beitrag zu anderen Themenclustern
@@ -284,7 +295,7 @@ block content
                         label Unterstützungsbedarf
                             span.info ?
                                 .info-content
-                                    p  Ich habe weiteren Unterstützungsbedarf und bitte um Kontaktaufnahme durch die MPI Geschäftsstelle.
+                                    p Bitte klicken Sie das untere Kästchen an, wenn Sie weiteren Unterstützungsbedarf haben und eine Kontaktaufnahme durch die Geschäftsstelle wünschen.
                         div(style='width: 100%;')
                             input(type='checkbox', name= milestone.key + '.needSupport', checked= milestone.needSupport,
                                 style='background: transparent; border: none; width: 18px; height: 18px;'
@@ -329,7 +340,9 @@ block js
             } )
             $('.datepicker').each(function() {
                 let $dp = $(this)
-                $dp.datepicker('setDate', new Date($dp.attr('m-date')))
+                if ($dp.attr('m-date') && $dp.attr('m-date') != '') {
+                    $dp.datepicker('setDate', new Date($dp.attr('m-date')))
+                }
             })
 
             $('.accordion-toggle').click(function(e) {
