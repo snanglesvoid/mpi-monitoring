@@ -197,7 +197,7 @@ block content
                         span(style='float: right; font-size:14px;'): em Fällig am #{milestone._.date.format('DD.MM.YYYY')}
                 .accordion-group
                     .form-group
-                        label Projektstatus 1 (allgemeil)
+                        label Projektstatus 1 (allgemein)
                         if canEdit
                             select(name= milestone.key + '.state', readonly=!canEdit).form-control
                                 -var txt = "Noch nicht angefangen"
@@ -243,6 +243,7 @@ block content
                             span.info ?
                                 .info-content
                                     p Bitte führen Sie hier kurz aus, warum Sie sich für den Projektstatus entschieden haben.
+                        textarea.form-control(name= milestone.key + '.description', readonly=!canEdit)= milestone.description
                     .form-group
                         label Umsetzungsstatus der von Ihnen definierten Meilensteine
                             span.info ?
@@ -272,7 +273,6 @@ block content
                                 .middle
                             span.textlabel(style='float: right; display: inline-block;')
                     
-                        textarea.form-control(name= milestone.key + '.description', readonly=!canEdit)= milestone.description
                     .form-group
                         label Aktivitäten bei Abweichungen vom Plan
                             span.info ?
@@ -281,7 +281,7 @@ block content
                         textarea.form-control(name= milestone.key + '.deviationMeasure', readonly=!canEdit)= milestone.deviationMeasure
                     .form-group
                         label Besondere Herausforderungen
-                            span.info
+                            span.info ?
                                 .info-content
                                     p Bitte beschreiben Sie kurz, ob besondere Herausforderungen auftreten, aufgetreten sind oder aktuell einer erfolgreichen Projektumsetzung im Wege stehen.
                         textarea.form-control(name= milestone.key + '.challenges', readonly=!canEdit)= milestone.challenges
