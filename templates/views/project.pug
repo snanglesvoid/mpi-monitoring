@@ -301,6 +301,9 @@ block content
                                 style='background: transparent; border: none; width: 18px; height: 18px;'
                             )
                     .form-group
+                        label Dateien Hinzufügen
+                        input.form-control(type='file', name=milestone.key + '.file-upload')
+                    .form-group
                         label Notizen
                         textarea.form-control(name= milestone.key + '.notes', readonly=!canEdit)= milestone.notes
                     

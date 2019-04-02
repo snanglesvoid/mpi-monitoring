@@ -1,4 +1,6 @@
 const keystone = require('keystone')
+const fs = require('fs')
+const formidable = require('formidable')
 
 exports = module.exports = async (req, res) => {
     let view = new keystone.View(req, res)
@@ -92,6 +94,18 @@ exports = module.exports = async (req, res) => {
 
             await project.save()
 
+            async function uploadFile(milestone) {
+                return new Promise((resolve, reject) => {
+                    new formidable.IncomingForm().parse(req)
+                        .on('error', (error) => {
+                            reject(error)
+                        })
+                        .on('file', (name, file) => {
+                            console.log('formidable file ', name, file)
+                        })
+                })
+            }
+
             milestones.forEach(async milestone => {
                 let key = milestone.key
                 milestone.description = req.body[key + '.description']
@@ -103,7 +117,10 @@ exports = module.exports = async (req, res) => {
                 milestone.state2 = req.body[key + '.state2']
                 milestone.evaluation = req.body[key + '.evaluation']
                 milestone.needSupport = req.body[key + '.needSupport'] ? true : false
+
                 await milestone.save()
+
+                await uploadFile(milestone)
             })
         }
         catch (error) {

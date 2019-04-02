@@ -28,4 +28,6 @@ exports = module.exports = function (app) {
 	app.post('/projects-upload', middleware.requireAdmin, routes.views['projects-upload'].post)
 	app.get('/project-detail-upload', middleware.requireAdmin, routes.views['project-detail-upload'].get)
 	app.post('/project-detail-upload', middleware.requireAdmin, routes.views['project-detail-upload'].post)
+	app.get('/csv-to-excel', middleware.requireAdmin, routes.views['csv-to-excel'].get)
+	app.post('/csv-to-excel', middleware.requireAdmin, routes.views['csv-to-excel'].post)
 };

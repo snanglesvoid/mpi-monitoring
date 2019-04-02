@@ -1,0 +1,69 @@
+extends ../layouts/default
+
+block content
+    .container
+        .row: .col-md-12: h3 csv zu excel konvertieren
+        hr
+        .row#top
+            .col-sm-3
+                #drop .csv Datei hier ablegen
+            .col-sm-6
+                .form-group
+                    label(for='file') ...oder hier auswählen
+                    input#file.form-control(type='file', value='', style='background: transparent;')
+            .col-sm-3
+                button#postbtn.btn.btn-primary(disabled) Runterladen
+        hr
+        .row#bottom
+            #header
+                pre#out
+                h3 Tabellen Vorschau <br/>
+            #grid
+            #footnote
+
+block css
+    style.
+        #grid {
+            display: none;
+            height: 100px;
+        }
+        #out {
+            display: none;
+        }
+        #drop{
+            border:2px dashed #bbb;
+            -moz-border-radius:5px;
+            -webkit-border-radius:5px;
+            border-radius:5px;
+            padding:25px;
+            text-align:center;
+            width:128px;
+        }
+        #buttons button {
+            display: inline-block;
+            padding: 6px 9px;
+            margin: 0 2px 0 0;
+            font-size: 13px;
+            line-height: 24px;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: middle;
+            cursor: pointer;
+            border: none;
+            -moz-user-select: none;
+            background-color: #bbb;
+            color: white;
+        }
+        #postbtn {
+            float: right;
+        }
+
+block js
+    script(src='/js/lib/shim.js')
+    script(src='https://unpkg.com/xlsx/dist/xlsx.full.min.js')
+    script(src='/js/lib/dropsheet.js')
+    script(src="//unpkg.com/canvas-datagrid/dist/canvas-datagrid.js")
+    script(src='/js/lib/alertify.js')
+    script(src='/js/lib/spin.js')
+    script(src='/js/admin/csv-to-excel.js')
+        
