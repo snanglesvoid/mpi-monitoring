@@ -79,16 +79,15 @@ exports = module.exports = async (req, res) => {
             stdout = await shellExec('ls')
             console.log('LS OUTPUT:\n', stdout)
             stdout = await shellExec('zip -r ' + tempName + ' ./*')
-            console.log('ZIP OUTPUT:\n' + stdout)
+            console.log('ZIP OUTPUT:\n', stdout)
             res.download(tempName, async err => {
+                console.error('DOWNLOAD ERROR: ', err)
                 if (err) {
                     req.flash('err')
                     return next()
                 }
                 stdout = await shellExec('rm ' + tempName)
-                console.log('ZIP FILE REMOVED:\n' + stdout)
-                stdout = await shellExec('cd -')
-                console.log('CD BACK OUTPUT\n', stdout)
+                console.log('ZIP FILE REMOVED:\n', 'rm ' + tempName, stdout)
             })
         } 
         catch (err) {
