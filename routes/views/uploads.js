@@ -72,13 +72,13 @@ exports = module.exports = async (req, res) => {
             return next()
         }
         try {
-            let tempName = pth.resolve(fpath + (new Date().getTime() + '.zip'))
+            let tempName = pth.resolve(fpath + '.zip')
             let stdout = await shellExec('zip -r ' + tempName + ' ' + pth.resolve(fpath))
             console.log(stdout)
             res.download(tempName)
             stdout = await shellExec('rm ' + tempName)
             console.log(stdout)
-            next()
+            // next()
         } 
         catch (err) {
             req.flash('error', err)
