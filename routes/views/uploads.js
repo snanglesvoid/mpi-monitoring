@@ -76,7 +76,7 @@ exports = module.exports = async (req, res) => {
 
             let stdout = await shellExec('cd ' + pth.resolve(fpath))
             console.log('CD OUTPUT:\n', stdout)
-            let stdout = await shellExec('ls')
+            stdout = await shellExec('ls')
             console.log('LS OUTPUT: ', stdout)
             return next()
             stdout = await shellExec('zip -r ' + tempName + ' ./*')
