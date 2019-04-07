@@ -1,5 +1,5 @@
 const _ = require('lodash');
-
+const UAParser = require('ua-parser-js')
 
 /**
 	Initialises the standard view locals
@@ -18,11 +18,28 @@ exports.initLocals = function (req, res, next) {
 	next();
 };
 
+exports.ensureBrowser = function (req, res, next) {
+	let parser = new UAParser()
+	let ua = req.headers['user-agent']
+	let browserName = parser.setUA(ua).getBrowser().name
+
+	console.log('browser name: ', browserName)
+	// let fullBrowserVersion = parser.setUA(ua).getBrowser().version
+	// let browserVersion = fullBrowserVersion.split('.', 1).toString()
+	// let browserVersionNumber = Number(browserVersion)
+
+	if (browserName == 'IE') {
+		req.flash('warning', "Internet Explorer wird nicht mehr von Microsoft unterstützt! Falls Probleme auftreten verwenden Sie bitte einen modernen Browser (z.B. Firefox, Chrome, Safari oder Microsoft Edge).")
+	}
+	next()
+}
+
 
 /**
 	Fetches and clears the flashMessages before a view is rendered
 */
 exports.flashMessages = function (req, res, next) {
+	// console.log('flash messages')
 	var flashMessages = {
 		info: req.flash('info'),
 		success: req.flash('success'),

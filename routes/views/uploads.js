@@ -38,7 +38,7 @@ exports = module.exports = async (req, res) => {
 
     fs.readdir(fpath, function(err, items) {
         console.log(items)
-        console.error(err)
+        console.log(err)
         if (err || !items) {
             //no such directory
             if (err && err.code == 'ENOTDIR') {
@@ -50,6 +50,7 @@ exports = module.exports = async (req, res) => {
             }
         }
         locals.directories = items
+        console.log('dirs: ', locals.directories)
         view.render('uploads')
     })
 
@@ -81,8 +82,8 @@ exports = module.exports = async (req, res) => {
             stdout = await shellExec('zip -r ' + tempName + ' ./*')
             console.log('ZIP OUTPUT:\n', stdout)
             res.download(tempName, async err => {
-                console.error('DOWNLOAD ERROR: ', err)
                 if (err) {
+                    console.error('DOWNLOAD ERROR: ', err)
                     req.flash('err')
                     return next()
                 }

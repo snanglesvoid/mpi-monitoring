@@ -6,6 +6,7 @@ var importRoutes = keystone.importer(__dirname);
 // Common Middleware
 keystone.pre('routes', middleware.initLocals);
 keystone.pre('render', middleware.flashMessages);
+keystone.pre('render', middleware.ensureBrowser);
 
 // Import Route Controllers
 var routes = {
@@ -33,4 +34,6 @@ exports = module.exports = function (app) {
 
 	app.all('/uploads/*', middleware.requireAdmin, routes.views.uploads)
 	app.all('/uploads', (req, res) => res.redirect('/uploads/'))
+
+	app.post('/upload/*', middleware.requireUser, routes.views.upload)
 };

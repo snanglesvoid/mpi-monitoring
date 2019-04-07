@@ -40,7 +40,7 @@ Milestone.add({
         { value: 2, label: 'Meilensteine wurden teilweise erreicht' }, 
         { value: 3, label: 'Meilensteine wurden weitgehend erreicht' },
         { value: 4, label: 'Meilensteine wurden vollständig erreicht' }] },
-    documents: { type: Types.File, storage: storageAdapter }
+    // documents: { type: Types.File, storage: storageAdapter }
 })
 
 Milestone.defaultColumns = 'key, projectId, date, state, evaluation'
