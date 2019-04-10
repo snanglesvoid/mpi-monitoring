@@ -9,7 +9,7 @@ block content
                         a(href= '/uploads/' + upath) &uarr;
                     | &nbsp;&nbsp;#{'/' + path}
             .col-sm-4
-                if (path && path !== '/')
+                if (path && path !== '/' && directories.length > 0)
                     form(method='post')
                         button.btn.btn-link(type='submit', action='/uploads/' + path) Ordner Runterladen
         if directories.length == 0
