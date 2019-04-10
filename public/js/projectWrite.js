@@ -99,19 +99,12 @@ $(function() {
                 </tr>
             `)
             $tbody.find('a.add').on('click', function() {
+
+                let dialog = showModal($('#file-form-dialog'))
+
                 console.log('click')
-                let $form = $('#file-form-dialog').find('form')
+                let $form = $('#modal-bg').find('form')
                 $form.attr('action', '/upload' + path)
-
-                let dialog = $('#file-form-dialog').get(0)
-                console.log(dialog)
-
-                if (typeof dialog.showModal === 'function') {
-                    dialog.showModal()
-                }
-                else {
-                    alert('the dialog api is not supported')
-                }
 
                 $form.submit(function() {
                     if (!$form.find('input[type="file"]').val()) {
@@ -124,4 +117,23 @@ $(function() {
             })
         })
     })
+
+    function showModal ($parent) {
+        console.log('show modal')
+        $('#body').append(`
+            <div id='modal-bg'>
+                <div class='modal'>
+                    ${$parent.html()}
+                </div>
+            </div>
+        `)
+
+        $('.modal').css('display', 'block')
+
+        return {
+            close: function() {
+                $('#modal-bg').remove()
+            }
+        }
+    }
 })

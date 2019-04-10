@@ -4,7 +4,7 @@ block content
     .container
         h3= project.title
         br
-        dialog#file-form-dialog(style='padding: 32px;')
+        dialog#file-form-dialog(style='padding: 32px; display: none;')
             form#file-form(method='post', enctype='multipart/form-data')
                 .form-group
                     input.form-control(type='file' name='file' required=true)
@@ -391,4 +391,24 @@ block css
 
         .info-content {
             display: none;
+        }
+
+        #modal-bg {
+            z-index: 10000;
+            background: rgba(0,0,0,0.6);
+            position: fixed;
+            height: 100vh;
+            width: 100vw;
+            top: 0;
+            left: 0;
+        }
+        #modal-bg .modal {
+            background: white;
+             z-index: 10001;
+            padding: 32px;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            height: 150px;
         }
