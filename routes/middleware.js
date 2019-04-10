@@ -1,5 +1,6 @@
-const _ = require('lodash');
+const _ = require('lodash')
 const UAParser = require('ua-parser-js')
+
 
 /**
 	Initialises the standard view locals
@@ -23,7 +24,7 @@ exports.ensureBrowser = function (req, res, next) {
 	let ua = req.headers['user-agent']
 	let browserName = parser.setUA(ua).getBrowser().name
 
-	console.log('browser name: ', browserName)
+	// console.log('browser name: ', browserName)
 	// let fullBrowserVersion = parser.setUA(ua).getBrowser().version
 	// let browserVersion = fullBrowserVersion.split('.', 1).toString()
 	// let browserVersionNumber = Number(browserVersion)

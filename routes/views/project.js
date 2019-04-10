@@ -45,6 +45,8 @@ exports = module.exports = async (req, res) => {
             return view.render('errors/403')
         }
 
+        console.log('files', req.files)
+
         //update project
         try {
             console.log(req.body)

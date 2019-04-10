@@ -10,11 +10,22 @@ async function asyncForEach(array, callback) {
     }
 }
 
+function pad(i) { 
+    let s = String(i)
+    while(s.length < 2) {s = "0" + s}
+    return s
+}
+function dateTimeStr(d) { 
+    return d && d.constructor.name =='Date' ? 
+    `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()}  ${pad(d.getHours())}:${pad(d.getMinutes())}` : null
+}
+
 exports = module.exports = async (req, res) => {
     let view = new keystone.View(req, res)
-    let path = url.parse(req.url).pathname
+    let path = url.parse(req.url).pathname.replace(/%20/g,' ')
     let locals = res.locals
     locals.directories = []
+    locals.dateTimeStr = dateTimeStr
 
     path = path.split('/').filter(x => x.length > 0)
     path = path.slice(1)
@@ -36,7 +47,7 @@ exports = module.exports = async (req, res) => {
 
     locals.upath = upath
 
-    fs.readdir(fpath, function(err, items) {
+    fs.readdir(pth.resolve(fpath), async function(err, items) {
         console.log(items)
         console.log(err)
         if (err || !items) {
@@ -49,9 +60,24 @@ exports = module.exports = async (req, res) => {
                 return view.render('errors/404')
             }
         }
-        locals.directories = items
-        console.log('dirs: ', locals.directories)
-        view.render('uploads')
+        locals.directories = []
+        try {
+            await asyncForEach(items, async item => new Promise((resolve, reject) => {
+                fs.stat(pth.resolve(fpath + '/' + item), (err, stats) => {
+                    if (err) return reject(err)
+                    locals.directories.push({
+                        filename : item, meta : stats
+                    })
+                    resolve()
+                })
+            }))
+            // console.log('dirs: ', locals.directories)
+            view.render('uploads')
+        }
+        catch(error) {
+            req.flash('error', error)
+            res.redirect('/uploads/')
+        }
     })
 
     async function shellExec(command) {
@@ -95,7 +121,5 @@ exports = module.exports = async (req, res) => {
             req.flash('error', err)
             return next()
         }
-
-
     })
 }

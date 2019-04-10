@@ -1,18 +1,6 @@
 extends ../layouts/default
 
-block content
-  if user && user.canAccessKeystone
-    .container
-      h4 Administrator Funktionen:
-      ul
-        li
-          a(href='/password-generator') Passwort Generator
-        li
-          a(href='/projects-upload') Projekt-Überblick Tabelle hochladen
-        li
-          a(href='/project-detail-upload') Projektstekbrief hochladen
-        li
-          a(href='/csv-to-excel') CSV downloads für Excel vorbereiten
+block content 
   .container
     .row
       .col-sm-8#textcolumn

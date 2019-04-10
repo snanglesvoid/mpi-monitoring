@@ -4,8 +4,16 @@ block content
     .container
         h3= project.title
         br
-
-        form#project-form(action=(canEdit ? '/project/' + project.projectId : ''), method = "post", autocomplete="off")
+        dialog#file-form-dialog(style='padding: 32px;')
+            form#file-form(method='post', enctype='multipart/form-data')
+                .form-group
+                    input.form-control(type='file' name='file' required=true)
+                .form-group
+                    input.btn.btn-primary(type='submit' value='Hochladen', style='float: right;')
+                    | &nbsp; &nbsp;
+                    button.btn.btn-default.cancel(style='float: right;' value='cancel' type='button') Abbrechen
+        //- div#dialog-output(style='display: none;')
+        form#project-form(action=(canEdit ? '/project/' + project.projectId : ''), method = "post", autocomplete="off", enctype="multipart/form-data")
             input(autocomplete="false" name="hidden" type="text" style="display:none;")
             button.accordion-toggle
                 h4 Projekt Info
@@ -302,7 +310,18 @@ block content
                             )
                     .form-group
                         label Dateien Hinzufügen
-                        input.form-control(type='file', name=milestone.key)
+                        div.filelist(style='width: 100%;', path='/' + project.projectId + '/' + milestone.key)
+                            table.table.item-list(cellpadding=0 cellspacing=0)
+                                colgroup
+                                    col
+                                    col
+                                    col(width=26)
+                                thead
+                                    tr
+                                        th Datei
+                                        th Erstellt
+                                        th
+                                tbody
                     .form-group
                         label Notizen
                         textarea.form-control(name= milestone.key + '.notes', readonly=!canEdit)= milestone.notes
@@ -316,150 +335,9 @@ block content
 
 block js
     script(src='/js/lib/jquery-ui.min.js')
-    script.
-        $(function() {
-           
-            $('.datepicker').datepicker({
-                prevText: '&#x3c;zurück', prevStatus: '',
-                prevJumpText: '&#x3c;&#x3c;', prevJumpStatus: '',
-                nextText: 'Vor&#x3e;', nextStatus: '',
-                nextJumpText: '&#x3e;&#x3e;', nextJumpStatus: '',
-                currentText: 'heute', currentStatus: '',
-                todayText: 'heute', todayStatus: '',
-                clearText: '-', clearStatus: '',
-                closeText: 'schließen', closeStatus: '',
-                monthNames: ['Januar','Februar','März','April','Mai','Juni',
-                'Juli','August','September','Oktober','November','Dezember'],
-                monthNamesShort: ['Jan','Feb','Mär','Apr','Mai','Jun',
-                'Jul','Aug','Sep','Okt','Nov','Dez'],
-                dayNames: ['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
-                dayNamesShort: ['So','Mo','Di','Mi','Do','Fr','Sa'],
-                dayNamesMin: ['So','Mo','Di','Mi','Do','Fr','Sa'],
-                showMonthAfterYear: false,
-                //- showOn: 'both',
-                //- buttonImage: '/images/calendar.png',
-                buttonImageOnly: true,
-                dateFormat:'dd. MM yy',
-            } )
-            $('.datepicker').each(function() {
-                let $dp = $(this)
-                if ($dp.attr('m-date') && $dp.attr('m-date') != '') {
-                    $dp.datepicker('setDate', new Date($dp.attr('m-date')))
-                }
-            })
-
-            $('.accordion-toggle').click(function(e) {
-                console.log('click')
-                $(this).toggleClass('active')
-                $(this).next('.accordion-group').toggleClass('active')
-                e.preventDefault()
-                return false;
-            })
-            function showTooltip() {
-                console.log('show tooltip')
-                let $span = $(this)
-                $('span.info').css('z-index', 8)
-                $span.css('z-index', 11)
-                $span.css('border', 'none')
-                let text = $span.attr('data-text')
-
-                let x = $span.offset().left
-                let y = $span.offset().top - $(window).scrollTop()
-
-                $('.tooltip').remove()
-
-                $('#body').append(`
-                    <div class='tooltip'
-                         style='top: ${y}px; left: ${x}px;'
-                    >
-                        
-                    </div>
-                `)
-                $('.tooltip').html($span.find('.info-content').html())
-                    .on('mouseout', hideTooltip)
-                    .on('click', hideTooltip)
-                    .animate({
-                        opacity: 1
-                    }, 500)
-            }
-            function hideTooltip() {
-                $('.tooltip')
-                    .animate({
-                        opacity: 0
-                    }, 500, function() {
-                        $('span.info').css('z-index', 8)
-                        $('span.info').css('border', '1px solid green')
-                        $('.tooltip').remove()
-                    })
-            }
-            
-            $('span.info').on('mouseover', showTooltip)
-            //- $('span.info').on('mouseout', hideTooltip)
-        })
+    script(src='/js/projectRead.js')
     if canEdit
-        script.
-            $(function() {
-                InlineEditor
-                .create($('#notes').get(0), {})
-                .catch(console.error)
-
-                $('#project-form').submit(function() {
-                    $('#notes-hidden').val($('#notes').html())
-                    $('.datepicker').each(function() {
-                        $(this).val($(this).datepicker('getDate'))
-                    })
-
-                    $('input[type=file]').each(function() {
-                        alert('post file',  '/upload/' + $('#projectId').val() + '/' + $(this).attr('name') + '/')
-                        $.ajax({
-                            url: '/upload/' + $('#projectId').val() + '/' + $(this).attr('name') + '/',
-                            type: 'POST',
-                            data: new FormData($(this)[0]),
-                            processData: false,
-                            contentType: false,
-                        })
-                    })
-                    return false
-
-                })
-
-                $('.radio-container').click(function() {
-                    $(this).find('input').attr('checked', '')
-                    let label = $(this).find('input').attr('label')
-                    $(this).parent().find('span.textlabel').html(label)
-                    $(this).find('.middle').css('background', 'transparent')
-                    $(this).siblings().find('input').removeAttr('checked')
-                    $(this).siblings().find('.middle').css('background', 'white')
-                })
-
-                $('.radio-container').find('input[checked]').siblings('.middle').css('background', 'transparent')
-                $('.radio-container').find('input[checked]').each(function() {
-                    let $input = $(this)
-                    let label = $input.attr('label')
-                    $input.parent().parent().find('span.textlabel').html(label)
-                })
-                $('#resetbtn').click(function() {
-                    let p = confirm('Sind Sie sicher dass Sie alle Änderungen verwefen möchten?')
-                    if (p) {
-                        window.location.reload()
-                    }
-                    else {
-                        return false
-                    }
-                })
-
-                let $tcCheckboxes = $('.checkbox-label.themecluster').find('input[type=checkbox]')
-                $tcCheckboxes.on('click', function() {
-                    $(this).attr('checked', !$(this).attr('checked'))
-                    let count = $('.checkbox-label.themecluster').find('input[type=checkbox]').filter('[checked]').size()
-                    if (count > 3) {
-                        alert('Es können nicht mehr als drei Themencluster ausgewählt werden.')
-                        $(this).attr('checked', false)
-                    }
-                })
-
-                $('#measure').click()
-            })
+        script(src='/js/projectWrite.js')
     else
         script.
             $(function() {
