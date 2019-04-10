@@ -63,10 +63,18 @@ exports = module.exports = async (req, res) => {
         locals.directories = []
         try {
             await asyncForEach(items, async item => new Promise((resolve, reject) => {
-                fs.stat(pth.resolve(fpath + '/' + item), (err, stats) => {
+                let p = pth.resolve(fpath + '/' + item)
+                let isDir = false
+                try {
+                    isDir = fs.lstatSync(p).isDirectory()
+                }
+                catch (error) {
+                    return reject(error)
+                }
+                fs.stat(p, (err, stats) => {
                     if (err) return reject(err)
                     locals.directories.push({
-                        filename : item, meta : stats
+                        filename : item, meta : stats, directory: isDir
                     })
                     resolve()
                 })
