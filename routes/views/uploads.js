@@ -107,6 +107,9 @@ exports = module.exports = async (req, res) => {
             return next()
         }
         try {
+            if (fpath == '' || fpath == '/') {
+                return next()
+            }
             let tempName = pth.resolve(fpath + '.zip')
 
             let stdout = shell.cd(pth.resolve(fpath))//await shellExec('cd ' + pth.resolve(fpath))
