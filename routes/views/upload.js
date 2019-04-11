@@ -109,6 +109,8 @@ module.exports.post = async (req, res) => {
         req.flash('error', 'Nicht autorisiert')
         return view.render('errors/403')
     }
+
+    console.log(req.files)
     
     if (!req.files.file) {
         return res.status(500).send('error')

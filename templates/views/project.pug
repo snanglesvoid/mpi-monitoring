@@ -4,12 +4,13 @@ block content
     .container
         h3= project.title
         br
+        iframe#hiddenFrame(name="hiddenFrame" width="0" height="0" border="0" style="display: none;")
         dialog#file-form-dialog(style='padding: 32px; display: none;')
-            form#file-form(method='post', enctype='multipart/form-data')
+            form#file-form(method='post', enctype='multipart/form-data', target='hiddenFrame')
                 .form-group
-                    input.form-control(type='file' name='file' required=true)
+                    input.form-control#file-upload-input(type='file' name='file' required=true)
                 .form-group
-                    input.btn.btn-primary(type='submit' value='Hochladen', style='float: right;')
+                    input.btn.btn-primary(type='submit' value='Hochladen', style='float: right;', name='submit')
                     | &nbsp; &nbsp;
                     button.btn.btn-default.cancel(style='float: right;' value='cancel' type='button') Abbrechen
         //- div#dialog-output(style='display: none;')
@@ -313,8 +314,8 @@ block content
                         div.filelist(style='width: 100%;', path='/' + project.projectId + '/' + milestone.key)
                             table.table.item-list(cellpadding=0 cellspacing=0)
                                 colgroup
-                                    col
-                                    col
+                                    col(width="65%")
+                                    col(width="25%")
                                     col(width=26)
                                 thead
                                     tr

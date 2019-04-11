@@ -57,9 +57,12 @@ $(function() {
         `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()}  ${pad(d.getHours())}:${pad(d.getMinutes())}` : null
     }
 
+    function loadFiles(callback) {
     $('.filelist').each(function() {
         let $div = $(this)
         let path = $div.attr('path')
+
+        $div.find('tbody').empty()
 
         $.get('/upload' + path, data => {
             console.log('get upload', JSON.stringify(data))
@@ -83,7 +86,7 @@ $(function() {
                         $.ajax({
                             url: '/upload' + path + '/' + item.filename,
                             type: 'DELETE',
-                            success: function() { window.location.reload() },
+                            success: function() { loadFiles(() => alert('Datei gelöscht.')) },
                             error: function(err) { alert(err); },
                         })
                     }
@@ -105,8 +108,15 @@ $(function() {
                 console.log('click')
                 let $form = $('#modal-bg').find('form')
                 $form.attr('action', '/upload' + path)
-
-                $form.submit(function() {
+                $form.attr('id', '_file-upload-form')
+                $form.attr('name', '_file-upload-form')
+                $('#hiddenFrame').on('load', () => { 
+                    loadFiles(() => {
+                        dialog.close()
+                        alert('Upload erfolgreich!')
+                    })
+                })
+                $form.submit(function(e) {
                     if (!$form.find('input[type="file"]').val()) {
                         return false
                     }
@@ -117,6 +127,10 @@ $(function() {
             })
         })
     })
+    if (callback) callback()
+    }
+
+    loadFiles()
 
     function showModal ($parent) {
         console.log('show modal')
@@ -133,6 +147,7 @@ $(function() {
         return {
             close: function() {
                 $('#modal-bg').remove()
+                $('#hiddenFrame').unbind('load')
             }
         }
     }
