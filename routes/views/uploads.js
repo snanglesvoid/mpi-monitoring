@@ -111,7 +111,7 @@ exports = module.exports = async (req, res) => {
                 return next()
             }
             let tempName = pth.resolve(fpath + '.zip')
-
+            console.log('tempName', tempName)
             let stdout = shell.cd(pth.resolve(fpath))//await shellExec('cd ' + pth.resolve(fpath))
             console.log('CD OUTPUT:\n', 'cd ' + pth.resolve(fpath), stdout)
             stdout = await shellExec('ls')
