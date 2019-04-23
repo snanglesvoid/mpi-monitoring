@@ -79,18 +79,21 @@ $(function() {
     }
 
     function decodeHtml(str) {
-        console.log(str)
-        return str
-            .replace(/%C3%A4/g, 'ä')
-            .replace(/%C3%BC/g, 'ü')
-            .replace(/%C3%B6/g, 'ö')
-            .replace(/%C3%9F/g, 'ß')
-            .replace(/ÃƒÂ¤/g, 'ä')
-            .replace(/&#(\d+);/g, (_, dec) => {
-                console.log('replace', dec, escapeMap(dec))
-                if (!escapeMap(dec)) { alert(dec) }
-                return escapeMap[dec] || ''}
-            )
+        var div = document.createElement("div");
+        div.innerHTML = str;
+        let res = div.textContent || div.innerText;
+        return res
+        // return str
+        //     .replace(/%C3%A4/g, 'ä')
+        //     .replace(/%C3%BC/g, 'ü')
+        //     .replace(/%C3%B6/g, 'ö')
+        //     .replace(/%C3%9F/g, 'ß')
+        //     .replace(/ÃƒÂ¤/g, 'ä')
+        //     .replace(/&#(\d+);/g, (_, dec) => {
+        //         console.log('replace', dec, escapeMap(dec))
+        //         if (!escapeMap(dec)) { alert(dec) }
+        //         return escapeMap[dec] || ''}
+        //     )
     }
 
     function downloadExcel() {
