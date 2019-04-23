@@ -39,7 +39,7 @@ Milestone.add({
         { value: 1, label: 'Meilensteine wurden nicht erreicht' }, 
         { value: 2, label: 'Meilensteine wurden teilweise erreicht' }, 
         { value: 3, label: 'Meilensteine wurden weitgehend erreicht' },
-        { value: 4, label: 'Meilensteine wurden vollständig erreicht' }] },
+        { value: 4, label: 'Meilensteine wurden vollstaendig erreicht' }] },
     // documents: { type: Types.File, storage: storageAdapter }
 })
 

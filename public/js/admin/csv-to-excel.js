@@ -51,6 +51,9 @@ $(function() {
         for (let i = 0; i < json.length; ++i) {
             for (let j = 0; j < L; ++j) {
                 if (json[i][j] === undefined) json[i][j] = "n/a"
+                if (Object.prototype.toString.call(json[i][j]) === "[object Date]") {
+                    alert('date')
+                }
             }
         }
     
@@ -104,7 +107,7 @@ $(function() {
             // console.log('original row', r)
             return r
                 .map(x => x.replace(/\|/g, ''))
-                .map(x => x.replace(/<br\s*[\/]?>/gi, ' '))
+                // .map(x => x.replace(/<br\s*[\/]?>/gi, ' '))
                 .map(x => x.replace(/\r?\n|\r/g, ''))
                 .map(decodeHtml)
                 .reduce((a, b) => a + '|' + b)
