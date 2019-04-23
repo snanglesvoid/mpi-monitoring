@@ -69,11 +69,22 @@ $(function() {
         document.body.removeChild(element)
     }
 
+    function decodeUmlauts(str) {
+        return str
+            .replace(/%C3%A4/g, 'ä')
+            .replace(/%C3%BC/g, 'ü')
+            .replace(/%C3%B6/g, 'ö')
+            .replace(/%C3%9F/g, 'ß')
+    }
+
     function downloadExcel() {
         let header = 'sep=|\n'
 
         let content = cdg.data.map(r => 
-            r.reduce((a, b) => a + '|' + b)    
+            r
+                .map(x => x.replace(/\|/g, ''))
+                .map(decodeUmlauts)
+                .reduce((a, b) => a + '|' + b)    
         ).reduce((a, b) => a + '\n' + b, '')
     
         let text = header + content

@@ -1,42 +1,9 @@
 const keystone = require('keystone')
 const fs = require('fs')
 const pth = require('path')
-const mkdirp = require('mkdirp')
-// const parser = require('exif-parser')
-
-async function asyncForEach(array, callback) {
-    for (let index = 0; index < array.length; index++) {
-        await callback(array[index], index, array);
-    }
-}
-
-async function ensureDir (dirpath) {
-    return new Promise((resolve, reject) => {
-        mkdirp(dirpath, err => {
-            if (err) {
-                return reject(err)
-            }
-            return resolve('exists')
-        })
-    })
-}
-
-async function readFileP (path) {
-    return new Promise((resolve, reject) => {
-        fs.readFile(path, (err, data) => {
-            if (err) return reject(err)
-            return resolve(data)
-        })
-    })
-}
-async function readDirP (path) {
-    return new Promise((resolve, reject) => {
-        fs.readdir(path, (err, items) => {
-            if (err) return reject(err)
-            return resolve(items)
-        })
-    })
-}
+const pathSanitize = require('../../lib/pathsanitize')
+const asyncForEach = require('../../lib/asyncforeach')
+const afs = require('../../lib/asyncfs')
 
 module.exports.get = async (req, res) => {
     const view = new keystone.View(req, res)
@@ -57,13 +24,12 @@ module.exports.get = async (req, res) => {
 
     try {
         let path = __dirname + '/../../data/uploads/' + req.params.projectId + '/' + req.params.key + '/'
-        path = pth.resolve(path)
+        path = pathSanitize(pth.resolve(path))
 
-        let items = await readDirP(path)
+        let items = await afs.readDir(path)
 
         let result = []
         await asyncForEach(items, async item => new Promise(async (resolve, reject) => {
-            // let buffer = await readFileP(path + '/' + item)
             fs.stat(path + '/' + item, (err, stats) => {
                 if (err) return reject(err)
                 result.push({
@@ -118,9 +84,9 @@ module.exports.post = async (req, res) => {
 
     try {
         let path = __dirname + '/../../data/uploads/' + req.params.projectId + '/' + req.params.key + '/'
-        path = pth.resolve(path)
+        path = pathSanitize(pth.resolve(path))
         console.log('path', path)
-        await ensureDir(path)
+        await afs.ensureDir(path)
         let readStream = fs.createReadStream(req.files.file.path)
         let writeStream = fs.createWriteStream(path + '/' + req.files.file.originalname)
         readStream.pipe(writeStream)
@@ -156,6 +122,7 @@ module.exports.delete = async (req, res) => {
     
     try {
         let path = pth.resolve(__dirname + '/../../data/uploads/' + req.params.projectId + '/' + req.params.key + '/' + req.params.filename)
+        path = pathSanitize(path)
         fs.unlink(path, err => {
             if (err) throw err
             else {

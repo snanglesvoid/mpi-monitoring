@@ -26,6 +26,11 @@ EvaluationPeriod.schema.pre('save', async function(next) {
     try {
         this.updatedAt = new Date()
 
+        this.key = this.key
+            .replace(/\//g,'')
+            .replace(/\\/g, '')
+            .replace(/[\%|*<>:?'"]/g, '')
+
         let projects = await keystone.list('Project').model.find().exec()
         let milestones = (await keystone.list('Milestone').model.find({ evaluationPeriod: this.id }).exec())
         let Milestone = keystone.list('Milestone').model

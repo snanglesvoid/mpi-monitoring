@@ -4,28 +4,21 @@ const url = require('url')
 const pth = require('path')
 const shell = require('shelljs')
 
-async function asyncForEach(array, callback) {
-    for (let index = 0; index < array.length; index++) {
-        await callback(array[index], index, array);
-    }
-}
-
-function pad(i) { 
-    let s = String(i)
-    while(s.length < 2) {s = "0" + s}
-    return s
-}
-function dateTimeStr(d) { 
-    return d && d.constructor.name =='Date' ? 
-    `${pad(d.getDate())}.${pad(d.getMonth() + 1)}.${d.getFullYear()}  ${pad(d.getHours())}:${pad(d.getMinutes())}` : null
-}
+const pathSanitize = require('../../lib/pathsanitize')
+const asyncForEach = require('../../lib/asyncforeach')
+const stringHelpers = require('../../lib/stringhelpers')
 
 exports = module.exports = async (req, res) => {
     let view = new keystone.View(req, res)
-    let path = url.parse(req.url).pathname.replace(/%20/g,' ')
+    let path = url.parse(req.url).pathname
+        // .replace(/%20/g,'_')
+        // .replace(/\(/g,"[").replace(/\)/g,"]")
+    path = pathSanitize(path)
+    console.log(path)
+
     let locals = res.locals
     locals.directories = []
-    locals.dateTimeStr = dateTimeStr
+    locals.dateTimeStr = stringHelpers.dateTimeStr
 
     path = path.split('/').filter(x => x.length > 0)
     path = path.slice(1)
