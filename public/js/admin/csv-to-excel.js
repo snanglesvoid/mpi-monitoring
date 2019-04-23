@@ -86,8 +86,10 @@ $(function() {
             .replace(/%C3%9F/g, 'ß')
             .replace(/ÃƒÂ¤/g, 'ä')
             .replace(/&#(\d+);/g, (_, dec) => {
+                console.log('replace', dec, escapeMap(dec))
                 if (!escapeMap(dec)) { alert(dec) }
-                return escapeMap[dec] || ''})
+                return escapeMap[dec] || ''}
+            )
     }
 
     function downloadExcel() {
