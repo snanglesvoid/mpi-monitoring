@@ -75,6 +75,7 @@ $(function() {
             .replace(/%C3%BC/g, 'ü')
             .replace(/%C3%B6/g, 'ö')
             .replace(/%C3%9F/g, 'ß')
+            .replace(/ÃƒÂ¤/g, 'ä')
             .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec))
     }
 
@@ -86,7 +87,9 @@ $(function() {
             return r
                 .map(x => x.replace(/\|/g, ''))
                 .map(x => x.replace(/<br\s*[\/]?>/gi, ' '))
-                .map(decodeHtml)
+                // .map(decodeHtml)
+                .map(encodeURI)
+                .map(decodeURI)
                 .reduce((a, b) => a + '|' + b)
             }
         ).reduce((a, b) => a + '\n' + b, '')
