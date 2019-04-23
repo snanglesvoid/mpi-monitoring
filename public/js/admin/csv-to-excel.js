@@ -51,9 +51,6 @@ $(function() {
         for (let i = 0; i < json.length; ++i) {
             for (let j = 0; j < L; ++j) {
                 if (json[i][j] === undefined) json[i][j] = "n/a"
-                if (Object.prototype.toString.call(json[i][j]) === "[object Date]") {
-                    alert('date')
-                }
             }
         }
     
@@ -101,8 +98,7 @@ $(function() {
     window.decodeHtml = decodeHtml
 
     function downloadExcel() {
-        // let header = 'sep=|\n'
-        
+        let header = 'sep=|\n'
         let content = cdg.data.map(r => {
             // console.log('original row', r)
             return r
