@@ -83,6 +83,7 @@ $(function() {
         let content = cdg.data.map(r => 
             r
                 .map(x => x.replace(/\|/g, ''))
+                .map(x => x.replace(/<br\s*[\/]?>/gi, '\n'))
                 .map(decodeUmlauts)
                 .reduce((a, b) => a + '|' + b)    
         ).reduce((a, b) => a + '\n' + b, '')
