@@ -1,0 +1,35 @@
+extends ../layouts/default
+
+block content
+    .container
+        .row: .col-md-12
+            h3 Daten runterladen
+        hr
+        .row
+            .form-group
+                label Tabelle
+                select#list-select.form-control
+                    each list in lists
+                        option(value= list.key)= list.label
+        each list in lists
+            .row(id= list.key)
+                .form-group
+                    label Spalten
+                    div(style='min-height: 34px; height: auto; width: 100%;'): div(style='width: 100%; display: flex; flex-wrap: wrap;')
+                        each key in Object.keys(list.fields)
+                            -var field = list.fields[key]
+                            div.checkbox-label.themcluster
+                                input(type='checkbox', name= key, value= key, 
+                                checked= list.defaultColumns.indexOf(key) > 0)
+                                span &nbsp;#{field.label}
+
+        .row
+
+block css
+    style.
+        .checkbox-label {
+            width: 280px;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }

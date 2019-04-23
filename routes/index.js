@@ -35,6 +35,7 @@ exports = module.exports = function (app) {
 	app.post('/project-detail-upload', middleware.requireAdmin, routes.views['project-detail-upload'].post)
 	app.get('/csv-to-excel', middleware.requireAdmin, routes.views['csv-to-excel'].get)
 	app.post('/csv-to-excel', middleware.requireAdmin, routes.views['csv-to-excel'].post)
+	app.all('/data-download', middleware.requireAdmin, routes.views['data-download'])
 
 	app.all('/uploads/*', middleware.requireAdmin, routes.views.uploads)
 	app.all('/uploads', (req, res) => res.redirect('/uploads/'))

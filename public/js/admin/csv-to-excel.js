@@ -69,15 +69,13 @@ $(function() {
         document.body.removeChild(element)
     }
 
-    function decodeUmlauts(str) {
+    function decodeHtml(str) {
         return str
             .replace(/%C3%A4/g, 'ä')
-            .replace(/&auml/g, 'ä')
             .replace(/%C3%BC/g, 'ü')
-            .replace(/&uuml/g, 'ü')
             .replace(/%C3%B6/g, 'ö')
-            .replace(/&ouml/g, 'ö')
             .replace(/%C3%9F/g, 'ß')
+            .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec))
     }
 
     function downloadExcel() {
@@ -88,7 +86,7 @@ $(function() {
             return r
                 .map(x => x.replace(/\|/g, ''))
                 .map(x => x.replace(/<br\s*[\/]?>/gi, ' '))
-                .map(decodeUmlauts)
+                .map(decodeHtml)
                 .reduce((a, b) => a + '|' + b)
             }
         ).reduce((a, b) => a + '\n' + b, '')
