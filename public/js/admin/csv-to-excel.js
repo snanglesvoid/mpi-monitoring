@@ -79,6 +79,7 @@ $(function() {
     }
 
     function decodeHtml(str) {
+        console.log(str)
         return str
             .replace(/%C3%A4/g, 'ä')
             .replace(/%C3%BC/g, 'ü')
@@ -96,7 +97,7 @@ $(function() {
         let header = 'sep=|\n'
 
         let content = cdg.data.map(r => {
-            console.log('original row', r)
+            // console.log('original row', r)
             return r
                 .map(x => x.replace(/\|/g, ''))
                 .map(x => x.replace(/<br\s*[\/]?>/gi, ' '))
