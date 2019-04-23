@@ -69,6 +69,15 @@ $(function() {
         document.body.removeChild(element)
     }
 
+    const escapeMap = {
+        auml: 'ä',
+        uuml: 'ü',
+        ouml: 'ö',
+        quot: '"',
+        szlig: 'ß',
+        nbsp: ' ',
+    }
+
     function decodeHtml(str) {
         return str
             .replace(/%C3%A4/g, 'ä')
@@ -76,7 +85,9 @@ $(function() {
             .replace(/%C3%B6/g, 'ö')
             .replace(/%C3%9F/g, 'ß')
             .replace(/ÃƒÂ¤/g, 'ä')
-            .replace(/&#(\d+);/g, (_, dec) => String.fromCharCode(dec))
+            .replace(/&#(\d+);/g, (_, dec) => {
+                if (!escapeMap(dec)) { alert(dec) }
+                return escapeMap[dec] || ''})
     }
 
     function downloadExcel() {
@@ -87,9 +98,7 @@ $(function() {
             return r
                 .map(x => x.replace(/\|/g, ''))
                 .map(x => x.replace(/<br\s*[\/]?>/gi, ' '))
-                // .map(decodeHtml)
-                .map(encodeURI)
-                .map(decodeURI)
+                .map(decodeHtml)
                 .reduce((a, b) => a + '|' + b)
             }
         ).reduce((a, b) => a + '\n' + b, '')
