@@ -51,6 +51,11 @@ $(function() {
         for (let i = 0; i < json.length; ++i) {
             for (let j = 0; j < L; ++j) {
                 if (json[i][j] === undefined) json[i][j] = "n/a"
+
+                let d = new Date(json[i][j])
+                if (!isNaN(d)) {
+                    json[i][j] = moment(d).format('L')
+                }
             }
         }
     
