@@ -61,7 +61,7 @@ $(function() {
 
     function downloadText(text, filename) {
         let element = document.createElement('a')
-        element.setAttribute('href', 'data:text/plain;charset=unicode,' + encodeURIComponent(text))
+        element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text))
         element.setAttribute('download', filename)
         element.style.display = 'none'
         document.body.appendChild(element)
@@ -86,7 +86,7 @@ $(function() {
         let content = cdg.data.map(r => 
             r
                 .map(x => x.replace(/\|/g, ''))
-                .map(x => x.replace(/<br\s*[\/]?>/gi, '\n'))
+                .map(x => x.replace(/<br\s*[\/]?>/gi, ' '))
                 .map(decodeUmlauts)
                 .reduce((a, b) => a + '|' + b)    
         ).reduce((a, b) => a + '\n' + b, '')
