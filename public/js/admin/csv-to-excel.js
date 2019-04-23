@@ -72,8 +72,11 @@ $(function() {
     function decodeUmlauts(str) {
         return str
             .replace(/%C3%A4/g, 'ä')
+            .replace(/&auml/g, 'ä')
             .replace(/%C3%BC/g, 'ü')
+            .replace(/&uuml/g, 'ü')
             .replace(/%C3%B6/g, 'ö')
+            .replace(/&ouml/g, 'ö')
             .replace(/%C3%9F/g, 'ß')
     }
 
