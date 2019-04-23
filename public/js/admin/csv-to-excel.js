@@ -83,12 +83,14 @@ $(function() {
     function downloadExcel() {
         let header = 'sep=|\n'
 
-        let content = cdg.data.map(r => 
-            r
+        let content = cdg.data.map(r => {
+            console.log('original row', r)
+            return r
                 .map(x => x.replace(/\|/g, ''))
                 .map(x => x.replace(/<br\s*[\/]?>/gi, ' '))
                 .map(decodeUmlauts)
-                .reduce((a, b) => a + '|' + b)    
+                .reduce((a, b) => a + '|' + b)
+            }
         ).reduce((a, b) => a + '\n' + b, '')
     
         let text = header + content
