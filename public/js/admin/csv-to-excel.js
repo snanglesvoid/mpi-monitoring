@@ -95,6 +95,7 @@ $(function() {
         //         return escapeMap[dec] || ''}
         //     )
     }
+    window.decodeHtml = decodeHtml
 
     function downloadExcel() {
         let header = 'sep=|\n'
