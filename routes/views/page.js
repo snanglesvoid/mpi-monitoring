@@ -13,6 +13,7 @@ exports = module.exports = async (req, res) => {
 	if (!page) {
 		return view.render("errors/404");
 	}
+	res.locals.page = page;
 
 	view.render("page");
 };

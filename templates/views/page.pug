@@ -4,8 +4,8 @@ block content
   .container
     .row
       .col-sm-8#textcolumn
-        h1 WTF
         if page
+          h3= page.title
           div!= page.content
         //- .container(
         //-     data-ks-editable= editable(user, { list: 'Page', id: page.id, path: '/'})
