@@ -1,9 +1,13 @@
 extends ../layouts/default
 
 block content
-    if page
-        .container(
-            data-ks-editable= editable(user, { list: 'Page', id: page.id, path: '/'})
-        )
-            h3= page.title
-            div!= page.content
+  if page
+    .container
+      .row
+        .col-sm-8#textcolumn
+          div!= page.content
+        //- .container(
+        //-     data-ks-editable= editable(user, { list: 'Page', id: page.id, path: '/'})
+        //- )
+        //-     h3= page.title
+        //-     div!= page.content
