@@ -7,6 +7,9 @@ exports = module.exports = async (req, res) => {
 		.list("Page")
 		.model.findOne({ slug: req.params.slug });
 
+	console.log("slug", req.params.slug);
+	console.log("page", page);
+
 	if (!page) {
 		return view.render("errors/404");
 	}
