@@ -1,10 +1,10 @@
 extends ../layouts/default
 
-block content
-  if page
-    .container
-      .row
-        .col-sm-8#textcolumn
+block content 
+  .container
+    .row
+      .col-sm-8#textcolumn
+        if page
           div!= page.content
         //- .container(
         //-     data-ks-editable= editable(user, { list: 'Page', id: page.id, path: '/'})
