@@ -8,6 +8,7 @@
     "exif-parser": "^0.1.12",
     "formidable": "^1.2.1",
     "fs.promises": "^0.1.2",
+    "js-cookie": "^2.2.1",
     "keystone": "4.0.0-beta.5",
     "keystone-email": "1.0.5",
     "lodash": "^4.13.1",
