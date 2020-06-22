@@ -21,7 +21,7 @@ exports = module.exports = function (app) {
 	// Views
 	app.get('/', routes.views.index)
 	app.get('/account', middleware.requireUser, routes.views.account)
-	app.get('/page/:slug', middleware.requireUser, routes.views.page)
+	app.get('/page/:slug', routes.views.page)
 	app.all(
 		'/changePassword',
 		middleware.requireUser,
