@@ -16,7 +16,7 @@
     "multer": "^1.4.1",
     "pug": "2.0.0-beta11",
     "shelljs": "^0.8.3",
-    "ua-parser-js": "^0.7.19",
+    "ua-parser-js": "^0.7.24",
     "uuid": "^3.3.2"
   },
   "devDependencies": {
