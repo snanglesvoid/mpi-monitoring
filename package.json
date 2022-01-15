@@ -15,7 +15,7 @@
     "mkdirp": "^0.5.1",
     "multer": "^1.4.1",
     "pug": "2.0.0-beta11",
-    "shelljs": "^0.8.3",
+    "shelljs": "^0.8.5",
     "ua-parser-js": "^0.7.19",
     "uuid": "^3.3.2"
   },
