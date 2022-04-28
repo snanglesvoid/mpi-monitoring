@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "async": "2.1.4",
+    "async": "2.6.4",
     "dotenv": "4.0.0",
     "exif-parser": "^0.1.12",
     "formidable": "^1.2.1",
